@@ -32,7 +32,7 @@ struct ServerRowView: View {
                 HStack {
                     VStack(alignment: .leading) {
                         Text(viewModel.server.name)
-                            .font(.headline)
+                            .headline()
                             .foregroundColor(.primary)
                         if let status = viewModel.status {
                             if (status.status == .Offline) {

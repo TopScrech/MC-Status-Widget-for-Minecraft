@@ -1,12 +1,5 @@
-//
-//  MCStatusWidgetExtensionBundle.swift
-//  MCStatusWidgetExtension
-//
-//  Created by Tomer Shemesh on 10/9/24.
-//
-
 import WidgetKit
-import SwiftUI
+import ScrechKit
 
 @main
 struct MCStatusWidgetExtensionBundle: WidgetBundle {

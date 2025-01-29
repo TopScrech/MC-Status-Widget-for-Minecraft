@@ -1,15 +1,7 @@
-//
-//  HomescreenProvider.swift
-//  MCStatus
-//
-//  Created by Tomer Shemesh on 10/11/24.
-//
-
 import WidgetKit
 import MCStatusDataLayer
 import UIKit
 import SwiftData
-
 
 struct HomescreenProvider: AppIntentTimelineProvider {
     // this view is for when the widget has been added the the homescreen, but the user has not selected a server/theme ? or not.
@@ -39,7 +31,7 @@ struct HomescreenProvider: AppIntentTimelineProvider {
               let server = await SwiftDataHelper.getSavedServerById(container: container, server_id: uuid) else {
             return nil
         }
-
+        
         // step 2 load status
         let statusResult = await ServerStatusChecker.checkServer(server: server)
         let theme = if let themeId = configuration.Theme?.id, let themeEnum = Theme(rawValue: themeId) {
@@ -57,7 +49,7 @@ struct HomescreenProvider: AppIntentTimelineProvider {
         var entries: [ServerStatusHSSnapshotEntry] = []
         let currentDate = Date()
         let futureDate = Calendar.current.date(byAdding: .minute, value: 10, to: Date())!
-
+        
         let container = SwiftDataHelper.getModelContainter()
         guard let (server, serverStatus, widgetTheme) = await loadTimelineData(container: container, configuration: configuration) else {
             // nothing configured yet?
@@ -73,10 +65,12 @@ struct HomescreenProvider: AppIntentTimelineProvider {
             
             return Timeline(entries: entries, policy: .after(futureDate))
         }
+        
         let serverIcon = ImageHelper.convertFavIconString(favIcon: serverStatus.favIcon) ?? UIImage(named: "DefaultIcon")!
         
         for minOffset in 0 ..< 15 {
             var timeStr = ""
+            
             if (minOffset == 0) {
                 timeStr = "now"
             } else {

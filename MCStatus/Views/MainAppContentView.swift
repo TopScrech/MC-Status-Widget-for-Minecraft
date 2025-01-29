@@ -145,7 +145,7 @@ struct MainAppContentView: View {
                 reloadData()
                 
             }
-        }.sheet(isPresented: $showingAddSheet) {
+        }.sheet($showingAddSheet) {
             // create new binding server to add
             let newServer = SavedMinecraftServer.initialize(id: UUID(), serverType: .Java, name: "", serverUrl: "", serverPort: 0, srvServerUrl: "", srvServerPort: 0, serverIcon: "", displayOrder: 0)
             NavigationStack {
@@ -155,7 +155,7 @@ struct MainAppContentView: View {
                     refreshDisplayOrders()
                 }
             }
-        }.sheet(isPresented: $showReleaseNotes) {
+        }.sheet($showReleaseNotes) {
             NavigationStack {
                 ReleaseNotesView()
             }

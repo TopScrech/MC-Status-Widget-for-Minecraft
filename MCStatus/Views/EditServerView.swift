@@ -41,7 +41,7 @@ struct EditServerView: View {
             Section(header: Text("Start monitoring a server"), footer: Text("*MCStatus is used for checking the status an existing server. It will not create, setup, or host a new server.").padding(EdgeInsets(top: 10,leading: 0,bottom: 0,trailing: 0))) {
                 HStack { Image(systemName: "list.bullet")
                         .foregroundColor(.gray)
-                        .font(.headline)
+                        .headline()
                         .frame(width: 25, height: 25)
                     Picker("Server Type"
                            , selection: $tempServerType) {
@@ -59,7 +59,7 @@ struct EditServerView: View {
                 HStack {
                     Image(systemName: "tag.fill")
                         .foregroundColor(.gray)
-                        .font(.headline)
+                        .headline()
                         .frame(width: 25, height: 25)
                     TextField("Server Name", text: $tempNameInput, prompt: Text("Server Name")).textInputAutocapitalization(.words).submitLabel(.next).focused($focusedField, equals: .serverName).onSubmit {
                         focusedField = .serverAddress
@@ -68,7 +68,7 @@ struct EditServerView: View {
                 HStack {
                     Image(systemName: "rectangle.connected.to.line.below")
                         .foregroundColor(.gray)
-                        .font(.headline)
+                        .headline()
                         .frame(width: 25, height: 25)
                     TextField("Server Address/IP", text: $tempServerInput, prompt: Text("Server Address/IP")).autocapitalization(.none).keyboardType(.URL).autocorrectionDisabled(true).submitLabel(.done).focused($focusedField, equals: .serverAddress)
                         .onChange(of: tempServerInput, initial: false) { oldValue, newValue  in
@@ -78,7 +78,7 @@ struct EditServerView: View {
                 HStack {
                     Image(systemName: "number")
                         .foregroundColor(.gray)
-                        .font(.headline)
+                        .headline()
                         .frame(width: 25, height: 25)
                     TextField(portLabelPromptText, value: $tempPortInput, formatter: NumberFormatter(), prompt: Text(portLabelPromptText)).keyboardType(.numberPad)
                 }

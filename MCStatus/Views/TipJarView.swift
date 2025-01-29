@@ -41,7 +41,7 @@ struct TipJarView: View {
                             }
                         }) {
                             Text("Tip \(product.displayPrice)")
-                                .font(.headline)
+                                .headline()
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(Color.blue)
