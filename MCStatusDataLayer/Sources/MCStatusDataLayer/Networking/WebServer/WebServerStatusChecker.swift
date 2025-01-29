@@ -1,10 +1,3 @@
-//
-//  WebServerChecker.swift
-//  MCStatus
-//
-//  Created by Tomer Shemesh on 8/6/23.
-//
-
 import Foundation
 
 // this class is used to call the 3rd party web api, and ask them for information, in the case we are unable to connect directly.
@@ -14,6 +7,7 @@ public class WebServerStatusChecker {
     
     public static func checkServer(serverUrl: String, serverPort: Int, serverType: ServerType, config: ServerCheckerConfig?) async throws -> ServerStatus {
         var urlString = WebServerStatusChecker.API_URL
+        
         if serverType == .Java {
             urlString += "java/"
         } else {
@@ -24,8 +18,9 @@ public class WebServerStatusChecker {
         
         let url = URL(string: urlString)!
         let urlSession = URLSession.shared
-
+        
         let (data, response) = try await urlSession.data(from: url)
+        
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             if (response as? HTTPURLResponse)?.statusCode == 400 {
                 // if the backup server returns a 400, then we address we supplied is invalid, so the server is offline.
@@ -36,7 +31,7 @@ public class WebServerStatusChecker {
                 throw ServerStatusCheckerError.DeviceNotConnected
             }
         }
-
+        
         if serverType == .Java {
             let decodedObj = try JSONDecoder().decode(WebJavaServerStatusResponse.self, from: data)
             return try WebServerStatusParser.parseServerResponse(input: decodedObj, config: config)
@@ -44,6 +39,5 @@ public class WebServerStatusChecker {
             let decodedObj = try JSONDecoder().decode(WebBedrockServerStatusResponse.self, from: data)
             return try WebServerStatusParser.parseServerResponse(input: decodedObj, config: config)
         }
-        
     }
 }

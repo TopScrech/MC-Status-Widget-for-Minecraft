@@ -1,17 +1,8 @@
-//
-//  SavedMinecraftServer.swift
-//  MCStatus
-//
-//  Created by Tomer Shemesh on 7/30/23.
-//
-
 import Foundation
 import SwiftData
 
-
 public enum ServerType: String, Codable {
-    case Java
-    case Bedrock
+    case Java, Bedrock
 }
 
 @Model
@@ -26,10 +17,19 @@ public class SavedMinecraftServer: Identifiable, Codable {
     public var displayOrder = 0
     public var serverType = ServerType.Java
     
-    
-    
-    public static func initialize(id:UUID, serverType: ServerType, name: String, serverUrl: String, serverPort: Int, srvServerUrl: String = "", srvServerPort: Int = 1, serverIcon: String = "", displayOrder: Int = 0) -> SavedMinecraftServer {
+    public static func initialize(
+        id: UUID,
+        serverType: ServerType,
+        name: String,
+        serverUrl: String,
+        serverPort: Int,
+        srvServerUrl: String = "",
+        srvServerPort: Int = 1,
+        serverIcon: String = "",
+        displayOrder: Int = 0
+    ) -> SavedMinecraftServer {
         let server = SavedMinecraftServer()
+        
         server.id = id
         server.name = name
         server.serverUrl = serverUrl
@@ -39,6 +39,7 @@ public class SavedMinecraftServer: Identifiable, Codable {
         server.serverIcon = serverIcon
         server.displayOrder = displayOrder
         server.serverType = serverType
+        
         return server
     }
     
@@ -48,7 +49,7 @@ public class SavedMinecraftServer: Identifiable, Codable {
     
     public enum CodingKeys: CodingKey {
         case id, name, serverUrl, serverPort, srvServerUrl, srvServerPort, serverIcon, displayOrder, serverType
-      }
+    }
     
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

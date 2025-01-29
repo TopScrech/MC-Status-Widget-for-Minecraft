@@ -1,17 +1,9 @@
-//
-//  LockscreenProvider.swift
-//  MCStatus
-//
-//  Created by Tomer Shemesh on 10/11/24.
-//
 import WidgetKit
 import MCStatusDataLayer
 import UIKit
 import SwiftData
 
-
 struct LockscreenProvider: AppIntentTimelineProvider {
-    
     let widgetType: LSWidgetType
     
     init(widgetType: LSWidgetType) {
@@ -27,7 +19,8 @@ struct LockscreenProvider: AppIntentTimelineProvider {
            let entity = ServerIntentTypeAppEntity(id: $0.id.uuidString, displayString: $0.name)
            let intent = ServerSelectNoThemeWidgetIntent()
            intent.Server = entity
-           let widgetNamePostfix = if self.widgetType == .OnlyImage {
+           
+            let widgetNamePostfix = if self.widgetType == .OnlyImage {
                " (No Text)"
            } else {
                ""
@@ -50,12 +43,13 @@ struct LockscreenProvider: AppIntentTimelineProvider {
         var vm = WidgetEntryViewModel()
         
         let container = SwiftDataHelper.getModelContainter()
+        
         if !context.isPreview, let (server, serverStatus) = await loadTimelineData(container: container, configuration: configuration) {
             let serverIcon = ImageHelper.convertFavIconString(favIcon: serverStatus.favIcon) ?? UIImage(named: "DefaultIcon")!
             vm = WidgetEntryViewModel(serverName: server.name, status: serverStatus, lastUpdated: "now", serverIcon: serverIcon, theme: .auto)
         }
         
-        if (context.isPreview) {
+        if context.isPreview {
             vm.viewType = .Preview
         }
         return ServerStatusLSSnapshotEntry(date: Date(), configuration: configuration, viewModel: vm)

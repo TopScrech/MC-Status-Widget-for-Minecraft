@@ -67,7 +67,7 @@ public class SRVResolver {
             request.results.append(record)
         }
         
-        if (flags & kDNSServiceFlagsMoreComing) == 0 {
+        if flags & kDNSServiceFlagsMoreComing == 0 {
             request.success()
         }
     }
@@ -101,8 +101,7 @@ public class SRVResolver {
     
     // this is also only support by java servers.
     public static func lookupMinecraftSRVRecord(serverURL: String) async -> (String,Int)? {
-        
-        //if its a regular ip just return nil
+        // if its a regular ip just return nil
         guard !SRVResolver.isValidIpAddress(ipToValidate: serverURL) else {
             print("SRVResolver - ignoring ip address request")
             return nil
@@ -126,9 +125,8 @@ public class SRVResolver {
         }
     }
     
-    //checks is the server is an ip address, if so donteven bother trying to get a dns record since one wont exist.
+    //checks is the server is an ip address, if so donteven bother trying to get a dns record since one wont exist
     static func isValidIpAddress(ipToValidate: String) -> Bool {
-        
         var sin = sockaddr_in()
         var sin6 = sockaddr_in6()
         
@@ -146,8 +144,7 @@ public class SRVResolver {
     }
     
     func resolve(query: String) async throws -> SRVResult {
-        
-        return try await withCheckedThrowingContinuation { continuation in
+        try await withCheckedThrowingContinuation { continuation in
             self.continuation = continuation
             self.query = query
             let namec = query.cString(using: .utf8)

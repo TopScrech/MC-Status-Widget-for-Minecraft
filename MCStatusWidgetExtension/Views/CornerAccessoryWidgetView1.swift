@@ -15,10 +15,10 @@ struct CornerAccessoryWidgetView1 : View {
                     .fontSize(iconSize)
                     .widgetAccentable()
                 
-            } else if(entry.viewModel.viewType == .Unconfigured) {
+            } else if entry.viewModel.viewType == .Unconfigured {
                 Text("...")
             } else {
-                if #available(iOSApplicationExtension 18.0, watchOS 11.0, *) {
+                if #available(iOSApplicationExtension 18, watchOS 11, *) {
                     Image(uiImage: entry.viewModel.icon)
                         .resizable()
                         .widgetAccentedRenderingMode(WidgetAccentedRenderingMode.accentedDesaturated)

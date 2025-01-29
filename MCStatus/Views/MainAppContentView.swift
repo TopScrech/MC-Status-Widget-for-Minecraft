@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  MCStatus
-//
-//  Created by Tomer Shemesh on 6/27/23.
-//
-
 import SwiftUI
 import SwiftData
 import CloudKit
@@ -16,6 +9,7 @@ import StoreKit
 enum PageDestinations {
     case SettingsRoot
 }
+
 struct MainAppContentView: View {
     
     let watchHelper = WatchHelper()

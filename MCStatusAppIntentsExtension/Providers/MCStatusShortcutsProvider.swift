@@ -1,11 +1,3 @@
-//
-//  MCStatusShortcutsProvider.swift
-//  MCStatusAppIntentsExtension
-//
-//  Created by Tomer Shemesh on 9/9/23.
-//
-
-import Foundation
 import AppIntents
 
 public struct MCStatusShortcutsProvider: AppShortcutsProvider {
@@ -26,4 +18,3 @@ public struct MCStatusShortcutsProvider: AppShortcutsProvider {
         )
     }    
 }
-

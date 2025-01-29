@@ -18,13 +18,11 @@ struct ServerStatusDetailView: View {
     var prefetcher = ImagePrefetcher()
     
     private var pillText: String {
-        var text = " "
-        
         if let status = serverStatusViewModel.status, serverStatusViewModel.loadingStatus != .Loading {
-            text = status.status.rawValue
+            status.status.rawValue
+        } else {
+            " "
         }
-        
-        return text
     }
     
     private var pillColor: Color {
@@ -42,13 +40,11 @@ struct ServerStatusDetailView: View {
     }
     
     private var playersText: String {
-        var text = ""
-        
         if let status = serverStatusViewModel.status {
-            text = "Players: \(status.onlinePlayerCount)/\(status.maxPlayerCount)"
+            "Players: \(status.onlinePlayerCount)/\(status.maxPlayerCount)"
+        } else {
+            ""
         }
-        
-        return text
     }
     
     private var srvAddressText: String {
@@ -63,21 +59,21 @@ struct ServerStatusDetailView: View {
     
     private func pingColor(for strength: Int) -> Color {
         switch strength {
-        case 1 ... 75:
-            return Color.statusBackgroundGreen
-        case 76 ... 200:
-            return Color.statusBackgroundYellow
-        case 200 ... Int.max:
-            return .red
+        case 1...75:
+            Color.statusBackgroundGreen
+            
+        case 76...200:
+            Color.statusBackgroundYellow
+            
+        case 200...Int.max:
+                .red
+            
         default:
-            return .gray
+                .gray
         }
     }
     
-    
-    @State
-    private var pingDuration = 0
-    
+    @State private var pingDuration = 0
     
     var body: some View {
         List {
@@ -90,12 +86,14 @@ struct ServerStatusDetailView: View {
                             .frame(width: 100, height: 100)
                             .cornerRadius(15)
                             .background(Color.serverIconBackground)
-                            .overlay(RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color(hex: "6e6e6e"), lineWidth: 4))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(Color(hex: "6e6e6e"), lineWidth: 4)
+                            }
                             .clipShape(.rect(cornerRadius: 15))
                             .padding(.trailing, 16)
-                            .shadow(color: .black.opacity(0.2), radius: 5, x: 3, y: 3) // Drop shadow
-                        
+                            .shadow(color: .black.opacity(0.2), radius: 5, x: 3, y: 3)
+                        // Drop shadow
                         
                         VStack(alignment: .leading, spacing: 0) {
                             Text(serverStatusViewModel.server.name)
@@ -148,7 +146,6 @@ struct ServerStatusDetailView: View {
                                     .background(Color.standoutPillGrey)
                                     .foregroundColor(.tertiaryTextColor)
                                     .cornerRadius(16)
-                                    
                                 }
                                 
                             }.padding(.top, 8)
@@ -185,10 +182,10 @@ struct ServerStatusDetailView: View {
                         .headline()
                         .padding(.bottom, 10)
                         .padding(.top, 15)
+                    
                     CustomProgressView(progress: serverStatusViewModel.getPlayerCountPercentage())
-                        .frame(height:10).padding(.bottom, 10)
-                    
-                    
+                        .frame(height:10)
+                        .padding(.bottom, 10)
                 }
             }
             .padding([.top, .trailing, .leading], 10)
@@ -218,7 +215,9 @@ struct ServerStatusDetailView: View {
                         
                         Text(player.name)
                         
-                    }.padding(.vertical, 10).listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
+                    }
+                    .padding(.vertical, 10)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
                 }
             } footer: {
                 let playerSampleCount = serverStatusViewModel.status?.playerSample.count ?? 0
@@ -287,9 +286,11 @@ struct ServerStatusDetailView: View {
     private func refreshPing() {
         Task {
             let pingResult = await SwiftyPing.pingServer(serverUrl: serverStatusViewModel.getServerAddressToPing())
+            
             guard pingResult.error == nil else {
                 return
             }
+            
             let pingDuration = Int(round(pingResult.duration * 1000))
             self.pingDuration = pingDuration
         }
@@ -297,6 +298,7 @@ struct ServerStatusDetailView: View {
     
     private func deleteServer() {
         modelContext.delete(serverStatusViewModel.server)
+        
         do {
             // Try to save
             try modelContext.save()
@@ -305,6 +307,7 @@ struct ServerStatusDetailView: View {
             // Failures include issues such as an invalid unique constraint
             print(error.localizedDescription)
         }
+        
         //refresh widgets
         WidgetCenter.shared.reloadAllTimelines()
         parentViewRefreshCallBack()

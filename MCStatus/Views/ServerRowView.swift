@@ -11,7 +11,7 @@ struct ServerRowView: View {
                 .scaledToFit()
                 .frame(width: 65.0, height: 65.0)
                 .cornerRadius(8)
-                .background(Color.serverIconBackground)
+                .background(.serverIconBackground)
                 .overlay {
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(Color(hex: "6e6e6e"), lineWidth: 3)

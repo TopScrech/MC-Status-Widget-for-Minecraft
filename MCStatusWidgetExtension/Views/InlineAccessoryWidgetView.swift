@@ -1,35 +1,17 @@
-//
-//  RectangularAccessoryWidgetView.swift
-//  MCStatus
-//
-//  Created by Tomer Shemesh on 10/11/24.
-//
-
-
-//
-//  CircularAccessoryWidgetView.swift
-//  MinecraftServerStatusHSWidgetExtension
-//
-//  Created by Tomer Shemesh on 10/4/22.
-//  Copyright © 2022 ShemeshApps. All rights reserved.
-//
-
-import Foundation
 import SwiftUI
 import Intents
 import WidgetKit
 
-
 struct InlineAccessoryWidgetView : View {
     var entry: LockscreenProvider.Entry
-
+    
     var body: some View {
         
 #if !targetEnvironment(macCatalyst)
         HStack(spacing: 8) {
             if let statusIcon = entry.viewModel.statusIcon {
                 Image(systemName: statusIcon)
-                    .font(.system(size: 18))
+                    .fontSize(18)
                     .widgetAccentable()
             } else {
                 Image(uiImage: entry.viewModel.icon).widgetAccentable()
@@ -37,15 +19,16 @@ struct InlineAccessoryWidgetView : View {
             
             Button(intent: RefreshWidgetIntent()) {
                 if entry.viewModel.viewType == .Unconfigured {
-                    #if os(watchOS)
+#if os(watchOS)
                     Text("...")
-                    #else
+#else
                     Text("Edit Widget")
-                    #endif
+#endif
                 } else {
                     Text(entry.viewModel.progressString)
                 }
-            }.buttonStyle(.plain)
+            }
+            .buttonStyle(.plain)
         }
 #endif
     }

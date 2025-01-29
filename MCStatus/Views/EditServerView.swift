@@ -130,14 +130,16 @@ struct EditServerView: View {
             Text("Port must be a number between 0 and 65535")
         }
     }
-    //
+    
     private func extractPort(from text: String) {
         // Check if the text contains a colon
         if let colonIndex = text.firstIndex(of: ":") {
             // Extract the port number after the colon
             let portValue = text[text.index(after: colonIndex)...]
+            
             let port = String(portValue)
-            // Remove the port from serverIP if necessary
+            
+            // Remove the port from server IP if necessary
             let serverIP = String(text[..<colonIndex])
             tempServerInput = serverIP
             tempPortInput = Int(port)
@@ -146,7 +148,7 @@ struct EditServerView: View {
     
     
     private func saveDisabled() -> Bool {
-        return tempNameInput.isEmpty || tempServerInput.isEmpty
+        tempNameInput.isEmpty || tempServerInput.isEmpty
     }
     
     private func inputHasChanged() -> Bool {
@@ -157,19 +159,21 @@ struct EditServerView: View {
     
     // server domains cannot have / or :
     private func isUrlValid(url: String) -> Bool {
-        return !url.contains(":") && !url.contains("/")
+        !url.contains(":") && !url.contains("/")
     }
     
     // THIS IS CALLED WHEN A SERVER IS EDITED OR ADDED
     private func saveItem() {
         // first validate url doesnt contains any / or :
         tempServerInput = tempServerInput.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         if !isUrlValid(url: tempServerInput) {
             showingInvalidURLAlert = true
             return
         }
         
         tempNameInput = tempNameInput.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         if tempNameInput.isEmpty {
             showingInvalidNameAlert = true
             return
@@ -208,7 +212,8 @@ struct EditServerView: View {
             print("added server")
             MCStatusShortcutsProvider.updateAppShortcutParameters()
             parentViewRefreshCallBack()
-            // force the widgets to refresh
+            
+            // Force widgets refresh
             WidgetCenter.shared.reloadAllTimelines()
             isPresented = false
         }

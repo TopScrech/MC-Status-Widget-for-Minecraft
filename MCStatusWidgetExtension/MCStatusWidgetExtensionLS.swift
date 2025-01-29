@@ -1,19 +1,9 @@
-//
-//  MCStatusWidgetExtension.swift
-//  MCStatusWidgetExtension
-//
-//  Created by Tomer Shemesh on 10/9/24.
-//
-
 import WidgetKit
 import SwiftUI
 import MCStatusDataLayer
 
-
-
-
 struct MinecraftServerStatusLSWidget1: Widget {
-    let kind: String = "MinecraftServerStatusLSWidget1"
+    let kind = "MinecraftServerStatusLSWidget1"
     
     private let supportedFamilies:[WidgetFamily] = {
         
@@ -24,7 +14,6 @@ struct MinecraftServerStatusLSWidget1: Widget {
 #else
         return [.accessoryCircular, .accessoryRectangular, .accessoryInline]
 #endif
-        
     }()
     
     var body: some WidgetConfiguration {
@@ -40,18 +29,16 @@ struct MinecraftServerStatusLSWidget1: Widget {
     }
 }
 
-
-
 struct MinecraftServerStatusLSWidget2: Widget {
-    let kind: String = "MinecraftServerStatusLSWidget2"
+    let kind = "MinecraftServerStatusLSWidget2"
     
-    private let supportedFamilies:[WidgetFamily] = {
+    private let supportedFamilies: [WidgetFamily] = {
 #if targetEnvironment(macCatalyst)
-        return []
+        []
 #elseif os(watchOS)
-        return [.accessoryCircular]
+        [.accessoryCircular]
 #else
-        return [.accessoryCircular, .accessoryInline]
+        [.accessoryCircular, .accessoryInline]
 #endif
     }()
     
@@ -65,12 +52,8 @@ struct MinecraftServerStatusLSWidget2: Widget {
     }
 }
 
-
-
-
 enum LSWidgetType {
-    case ImageAndText
-    case OnlyImage
+    case ImageAndText, OnlyImage
 }
 
 struct MinecraftServerStatusLSWidgetEntryView : View {
@@ -92,6 +75,7 @@ struct MinecraftServerStatusLSWidgetEntryView : View {
             case .OnlyImage:
                 CircularAccessoryWidgetView2(entry: entry)
             }
+            
         case .accessoryRectangular:
             RectangularAccessoryWidgetView(entry: entry)
             
@@ -112,7 +96,6 @@ struct MinecraftServerStatusLSWidgetEntryView : View {
         }
     }
 }
-
 
 struct ServerStatusLSSnapshotEntry: TimelineEntry {
     let date: Date

@@ -26,14 +26,17 @@ struct HomescreenProvider: AppIntentTimelineProvider {
     
     func loadTimelineData(container: ModelContainer, configuration: ServerSelectWidgetIntent) async -> (SavedMinecraftServer, ServerStatus, Theme)? {
         // step 1 load server from DB
-        guard let serverId = configuration.Server?.id,
-              let uuid = UUID(uuidString: serverId),
-              let server = await SwiftDataHelper.getSavedServerById(container: container, server_id: uuid) else {
+        guard
+            let serverId = configuration.Server?.id,
+            let uuid = UUID(uuidString: serverId),
+            let server = await SwiftDataHelper.getSavedServerById(container: container, server_id: uuid)
+        else {
             return nil
         }
         
         // step 2 load status
         let statusResult = await ServerStatusChecker.checkServer(server: server)
+        
         let theme = if let themeId = configuration.Theme?.id, let themeEnum = Theme(rawValue: themeId) {
             themeEnum
         } else {
@@ -71,7 +74,7 @@ struct HomescreenProvider: AppIntentTimelineProvider {
         for minOffset in 0 ..< 15 {
             var timeStr = ""
             
-            if (minOffset == 0) {
+            if minOffset == 0 {
                 timeStr = "now"
             } else {
                 timeStr = "\(minOffset)m ago"

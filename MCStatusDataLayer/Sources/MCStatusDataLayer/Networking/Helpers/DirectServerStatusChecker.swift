@@ -1,10 +1,3 @@
-//
-//  ServerStatusChecker.swift
-//  MCStatus
-//
-//  Created by Tomer Shemesh on 7/29/23.
-//
-
 import Foundation
 
 public class DirectServerStatusChecker {
@@ -24,11 +17,9 @@ public class ServerStatusCheckerFactory {
         switch serverType {
         case .Java:
             JavaServerStatusChecker(serverAddress: serverUrl, port: serverPort)
+            
         case .Bedrock:
             BedrockServerStatusChecker(serverAddress: serverUrl, port: serverPort)
         }
     }
 }
-
-
-

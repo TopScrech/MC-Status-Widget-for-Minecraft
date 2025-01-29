@@ -1,9 +1,3 @@
-//
-//  MCStatus
-//
-//  Created by Tomer Shemesh on 7/27/23.
-//
-
 import Foundation
 import Network
 
@@ -32,6 +26,7 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
     public func checkServer() async throws -> String {
         continuationHasBeenCalled = false
         recievedData = false
+        
         return try await withCheckedThrowingContinuation { continuation in
             self.continuation = continuation
             let dataToSend = getJavaStatusQueryData(address: self.serverAddress, port: self.port)
@@ -40,7 +35,7 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
     }
     
     public func getParser() -> ServerStatusParserProtocol.Type {
-        return JavaServerStatusParser.self
+        JavaServerStatusParser.self
     }
     
     func callContinuationResume(result: String) {
@@ -48,6 +43,7 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
             guard !continuationHasBeenCalled else {
                 return
             }
+            
             timeoutTask?.cancel()
             continuationHasBeenCalled = true
             continuation?.resume(returning: result)
@@ -59,6 +55,7 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
             guard !continuationHasBeenCalled else {
                 return
             }
+            
             timeoutTask?.cancel()
             continuationHasBeenCalled = true
             continuation?.resume(throwing: error)
@@ -66,8 +63,8 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
     }
     
     func startTCPConnection(dataToSend: Data) {
-        
         print("Going to start TCP Connection to \(self.serverAddress):\(self.port)")
+        
         guard self.port <= 65535, self.port >= 0, let port = NWEndpoint.Port(rawValue: UInt16(self.port)) else {
             print("Invalid Port... canceling")
             self.callContinuationError(error: ServerStatusCheckerError.InvalidPort)
@@ -81,11 +78,13 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
         self.timeoutTask = Task {
             
             try await Task.sleep(nanoseconds: UInt64(5) * NSEC_PER_SEC)
-            //see if we got any data so far, if we did wait 3 more seconds.
+            
+            // see if we got any data so far, if we did wait 3 more seconds
             if self.recievedData {
                 print("Waited 3 seconds but got data so waiting 3 more")
                 try await Task.sleep(nanoseconds: UInt64(3) * NSEC_PER_SEC)
             }
+            
             print("Timed out after connecting to \(self.serverAddress):\(self.port)")
             // ok now it took too long. timeout!
             self.callContinuationError(error: ServerStatusCheckerError.ServerUnreachable)
@@ -97,7 +96,7 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
             case .ready:
                 print("Connection established.")
                 connection.send(content: dataToSend, completion: .contentProcessed { error in
-                    if let error = error {
+                    if let error {
                         print("Error sending data: \(error)")
                         self.callContinuationError(error: ServerStatusCheckerError.ServerUnreachable)
                         connection.cancel()
@@ -130,9 +129,9 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
     }
     
     
-    // this is a recursive function that will read data from a given connection recurisvely, until the expected data has been read.
+    // this is a recursive function that will read data from a given connection recurisvely, until the expected data has been read
     // and once finished, sends the result to the continuation
-    // i would have prefered to not make his recursive, but since connection.receive sends the data back in a callback, there is basiaclaly no other way without making the code wayyy more complicated. you would need to extract this section out into it own class with withCheckedThrowingContinuation. Then you could use an async await to download the data with a while loop instead of recurisve function. Not worth it at the moment.
+    // i would have prefered to not make his recursive, but since connection.receive sends the data back in a callback, there is basiaclaly no other way without making the code wayyy more complicated. you would need to extract this section out into it own class with withCheckedThrowingContinuation. Then you could use an async await to download the data with a while loop instead of recurisve function. Not worth it at the moment
     func receiveConnectionData( connection: NWConnection, dataParts: [UInt8] = [], expectedSize: Int = -1) {
         
         // i have implemented TCP paging logic since the response may be sent over multitple packets
@@ -145,7 +144,7 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
             } else if let data {
                 print("Data: \(data)")
                 
-                // when we get here, the server has returned a chunk of data. we need to dynamaically store the chunks of data in an array to we can reconstruct it whole once we are finished downloading.
+                // when we get here, the server has returned a chunk of data. we need to dynamaically store the chunks of data in an array to we can reconstruct it whole once we are finished downloading
                 var dataArr = dataParts + convertDataToUInt8Array(data: data)
                 var messageComplete = false
                 var expectedMessageSize = -1
@@ -155,17 +154,17 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
                     self.recievedData = true
                 }
                 
-                // we need to make sure we have enough data downloaded from the server to read the expected message length.
-                // We actually don't have any idea how much mean to read so I just guess that it won't be more than 64 bites.
+                // we need to make sure we have enough data downloaded from the server to read the expected message length
+                // We actually don't have any idea how much mean to read so I just guess that it won't be more than 64 bites
                 if dataArr.count >= 64 {
                     // here we are checking if this is the first check of data we are requesting, and if so, the first bit of data we need to read is the expected length of the message which is sent first. But once we have that size, we need to continue passing it recursivly so the child calls know when to stop asking for data
-                    expectedMessageSize = if (expectedSize == -1) {
+                    expectedMessageSize = if expectedSize == -1 {
                         readVariableSizedInt(bytes: &dataArr)
                     } else {
                         expectedSize
                     }
                     
-                    //this should be exactly equal, and is in testing, but i'm using >= just to be extra safe we arent left hanging
+                    // this should be exactly equal, and is in testing, but i'm using >= just to be extra safe we arent left hanging
                     messageComplete = expectedMessageSize > 0 && dataArr.count >= expectedMessageSize
                 }
                 
@@ -202,14 +201,12 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
     
     // convert the Data object into a byte array, so we can store and append all the data chunks, and recontruct a string from the final data array
     func convertDataToUInt8Array(data: Data) -> [UInt8] {
-        return data.withUnsafeBytes { rawBufferPointer in
+        data.withUnsafeBytes { rawBufferPointer in
             // Access the raw bytes through the buffer pointer
             let bufferPointer = rawBufferPointer.bindMemory(to: UInt8.self)
             return Array(bufferPointer)
         }
     }
-    
-    
     
     // This is an implementation of a way to read a variable length integer. It reads in the arbtrary data, and parses out the variable length integer, removes the data from the incoming data array, and then return the number that was read from the data array
     // This is the way the Minecraft server sends the data back, and i cant seem to find a better way to parse it.
@@ -228,7 +225,7 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
             result |= (Int(byte) & 0b1111111) << shift
             shift += 7
             
-            if (Int(byte) & 0b10000000) == 0 {
+            if Int(byte) & 0b10000000 == 0 {
                 return result
             }
         }
@@ -266,6 +263,7 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
         let addressLengthByte = withUnsafeBytes(of: addressBytes.count) {
             $0[0]
         }
+        
         data.append(addressLengthByte) //lenth of url we are about to send
         data += addressBytes //the address of the server
         

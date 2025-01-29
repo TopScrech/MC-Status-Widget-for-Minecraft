@@ -11,10 +11,13 @@ struct WatchServerDetailScreen: View {
         
         if serverStatusViewModel.status?.status == .Offline {
             Text("Server is offline")
-        } else if (serverStatusViewModel.server.serverType == .Bedrock) {
+            
+        } else if serverStatusViewModel.server.serverType == .Bedrock {
             Text("Bedrock servers do not support player lists.")
-        } else if (onlinePlayerCount == 0) {
+            
+        } else if onlinePlayerCount == 0 {
             Text("No players online")
+            
         } else if playerList.isEmpty && onlinePlayerCount > 0 {
             Text("This server has disabled player lists.")
         }
@@ -22,18 +25,21 @@ struct WatchServerDetailScreen: View {
         List {
             Section {
                 ForEach(playerList) { player in
-                    HStack() {
+                    HStack {
                         let imageUrl = URL(string: serverStatusViewModel.getMcHeadsUrl(uuid: player.uuid))
                         
                         LazyImage(url: imageUrl) { state in
                             if let image = state.image {
-                                image.resizable().scaledToFit()
+                                image
+                                    .resizable()
+                                    .scaledToFit()
                             } else if state.error != nil {
                                 Color.serverIconBackground
                             } else {
                                 ZStack {
                                     Color.serverIconBackground
-                                    ProgressView().opacity(0.3)
+                                    ProgressView()
+                                        .opacity(0.3)
                                 }
                             }
                         }
@@ -44,7 +50,6 @@ struct WatchServerDetailScreen: View {
                         Text(player.name)
                             .lineLimit(1)
                     }
-                    
                 }
             } footer: {
                 let playerSampleCount = serverStatusViewModel.status?.playerSample.count ?? 0
@@ -55,7 +60,6 @@ struct WatchServerDetailScreen: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
             }
-            
         }
         .navigationTitle(serverStatusViewModel.server.name)
     }

@@ -1,24 +1,14 @@
-//
-//  WatchServerStatusChecker.swift
-//  MCStatusWatchApp Watch App
-//
-//  Created by Tomer Shemesh on 8/19/23.
-//
-
-import Foundation
 import MCStatusDataLayer
 import WatchConnectivity
 
 class WatchServerStatusChecker {
-    
     var responseListener: ((UUID, ServerStatus) -> Void)?
     let connectivityProvider = ConnectivityProvider()
     var expectedResponseBatches: Set<ExpectedResultBatch> = Set()
     
     init() {
         self.connectivityProvider.responseListener = { message in
-            
-            //recevied message from phone. Parse and remove from expected results, before passing on to listener.
+            //recevied message from phone. Parse and remove from expected results, before passing on to listener
             guard let (serverID, status) = self.parseWatchResponse(message: message) else {
                 return
             }
@@ -32,10 +22,10 @@ class WatchServerStatusChecker {
             self.responseListener?(serverID, status)
         }
     }
-    
 
     func checkServerAsync(server: SavedMinecraftServer) async -> ServerStatus {
         var didCallContinuation = false
+        
         return await withCheckedContinuation { continuation in
             responseListener = {
                 if !didCallContinuation {
@@ -43,12 +33,14 @@ class WatchServerStatusChecker {
                     continuation.resume(returning: $1)
                 }
             }
+            
             checkServers(servers: [server])
         }
     }
 
     func checkServers(servers:[SavedMinecraftServer]) {
         print("Watch is going to ask for server status from phone")
+        
         let serverBatch = servers.reduce(into: [UUID: SavedMinecraftServer]()) {
             $0[$1.id] = $1
         }
@@ -58,7 +50,6 @@ class WatchServerStatusChecker {
         expectedResponseBatches.insert(expectedBatch)
         Task {
             do {
-                
                 var connectiveStateCounter = 0
                 // first wait up to 1 second for the phone to become available.
                 while (!WCSession.default.isReachable || self.connectivityProvider.connectionState != .activated) && connectiveStateCounter < 4{
@@ -72,7 +63,6 @@ class WatchServerStatusChecker {
                     // wait 8 seconds, and check if we need to backup for any of the pending servers.
                     try await Task.sleep(nanoseconds: UInt64(8) * NSEC_PER_SEC)
                 }
-              
             } catch let error {
                 print("Failed to check servers via phone: \(error.localizedDescription)")
             }
@@ -90,13 +80,16 @@ class WatchServerStatusChecker {
         }
     }
     
-    
     private func parseWatchResponse(message: [String:Any]) -> (UUID, ServerStatus)? {
-        guard let responseString = message["response"] as? String, let jsonData = responseString.data(using: .utf8) else {
+        guard
+            let responseString = message["response"] as? String,
+            let jsonData = responseString.data(using: .utf8)
+        else {
             return nil
         }
         
         let decoder = JSONDecoder()
+        
         do {
             let response = try decoder.decode(WatchResponseMessage.self, from: jsonData)
             return (response.id, response.status)
@@ -119,7 +112,6 @@ class WatchServerStatusChecker {
             throw ServerStatusCheckerError.StatusUnparsable
         }
         
-        
         let payload = ["request":jsonString]
        
         print("sending request...")
@@ -131,8 +123,10 @@ class WatchServerStatusChecker {
     private func checkServerViaWeb(server: SavedMinecraftServer) async -> ServerStatus {
         do {
             print("CALLING BACKUP SERVER")
+            
             let res = try await WebServerStatusChecker.checkServer(serverUrl: server.serverUrl, serverPort: server.serverPort, serverType: server.serverType, config: nil)
             res.source = Source.ThirdParty
+            
             print("Got result from third part. Returning...")
             return res
         } catch {
@@ -147,15 +141,16 @@ class WatchServerStatusChecker {
 
 class ExpectedResultBatch: Hashable {
     static func == (lhs: ExpectedResultBatch, rhs: ExpectedResultBatch) -> Bool {
-        return lhs.expectedResults == rhs.expectedResults
+        lhs.expectedResults == rhs.expectedResults
     }
     
     func hash(into hasher: inout Hasher) {
-        return hasher.combine(expectedResults)
+        hasher.combine(expectedResults)
     }
     
     init(expectedResults: [UUID : SavedMinecraftServer]) {
         self.expectedResults = expectedResults
     }
+    
     var expectedResults: [UUID: SavedMinecraftServer] = [:]
 }

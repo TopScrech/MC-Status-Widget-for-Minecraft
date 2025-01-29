@@ -1,10 +1,3 @@
-//
-//  WebServerStatusParser.swift
-//  MCStatus
-//
-//  Created by Tomer Shemesh on 8/6/23.
-//
-
 import Foundation
 
 class WebServerStatusParser {
@@ -36,11 +29,12 @@ class WebServerStatusParser {
             status.version = versionString
         }
         
-        status.status = if (input.online) {
+        status.status = if input.online {
             OnlineStatus.Online
         } else {
             OnlineStatus.Offline
         }
+        
         return status
     }
     
@@ -60,11 +54,12 @@ class WebServerStatusParser {
             status.version = versionString
         }
         
-        status.status = if (input.online) {
+        status.status = if input.online {
             OnlineStatus.Online
         } else {
             OnlineStatus.Offline
         }
+        
         return status
     }
 }

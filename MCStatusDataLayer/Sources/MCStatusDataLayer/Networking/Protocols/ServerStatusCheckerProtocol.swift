@@ -1,10 +1,3 @@
-//
-//  ServerStatusCheckerProtocol.swift
-//  MCStatus
-//
-//  Created by Tomer Shemesh on 7/29/23.
-//
-
 import Foundation
 
 public protocol ServerStatusCheckerProtocol {
@@ -14,19 +7,14 @@ public protocol ServerStatusCheckerProtocol {
     func getParser() -> ServerStatusParserProtocol.Type
 }
 
-
 public protocol ServerStatusParserProtocol {
     static func parseServerResponse(stringInput: String, config: ServerCheckerConfig?) throws -> ServerStatus
 }
 
-
 public enum ServerStatusCheckerError: Error {
-    case DeviceNotConnected
-    case ServerUnreachable
-    case StatusUnparsable
-    case InvalidPort
-    case QueryBlocked
+    case DeviceNotConnected,
+         ServerUnreachable,
+         StatusUnparsable,
+         InvalidPort,
+         QueryBlocked
 }
-
-
-
