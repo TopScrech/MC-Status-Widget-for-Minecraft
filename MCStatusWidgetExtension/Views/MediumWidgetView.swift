@@ -26,7 +26,7 @@ private struct InnerMediumWidget : View {
         VStack {
             BaseWidgetView(entry: entry)
             
-            Text(entry.viewModel.playersString)
+            Text(entry.vm.playersString)
                 .fontWeight(.regular)
                 .foregroundColor(.veryTransparentText)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -40,7 +40,7 @@ private struct InnerMediumWidget : View {
 #warning("Migrate to the Preview macro")
 struct MinecraftServerStatusHSWidget_MediumPreview: PreviewProvider {
     static var previews: some View {
-        MinecraftServerStatusHSWidgetEntryView(entry: ServerStatusHSSnapshotEntry(date: Date(), configuration: ServerSelectWidgetIntent(), viewModel: WidgetEntryViewModel()))
+        MinecraftServerStatusHSWidgetEntryView(entry: ServerStatusHSSnapshotEntry(date: Date(), configuration: ServerSelectWidgetIntent(), vm: WidgetEntryViewModel()))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }

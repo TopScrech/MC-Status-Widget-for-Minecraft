@@ -3,16 +3,16 @@ import MCStatusDataLayer
 import NukeUI
 
 struct WatchServerDetailScreen: View {
-    @State var serverStatusViewModel: ServerStatusViewModel
+    @State var serverStatusVM: ServerStatusViewModel
     
     var body: some View {
-        let playerList = serverStatusViewModel.status?.playerSample ?? []
-        let onlinePlayerCount = serverStatusViewModel.status?.onlinePlayerCount ?? 0
+        let playerList = serverStatusVM.status?.playerSample ?? []
+        let onlinePlayerCount = serverStatusVM.status?.onlinePlayerCount ?? 0
         
-        if serverStatusViewModel.status?.status == .Offline {
+        if serverStatusVM.status?.status == .Offline {
             Text("Server is offline")
             
-        } else if serverStatusViewModel.server.serverType == .Bedrock {
+        } else if serverStatusVM.server.serverType == .Bedrock {
             Text("Bedrock servers do not support player lists.")
             
         } else if onlinePlayerCount == 0 {
@@ -26,7 +26,7 @@ struct WatchServerDetailScreen: View {
             Section {
                 ForEach(playerList) { player in
                     HStack {
-                        let imageUrl = URL(string: serverStatusViewModel.getMcHeadsUrl(uuid: player.uuid))
+                        let imageUrl = URL(string: serverStatusVM.getMcHeadsUrl(uuid: player.uuid))
                         
                         LazyImage(url: imageUrl) { state in
                             if let image = state.image {
@@ -52,8 +52,8 @@ struct WatchServerDetailScreen: View {
                     }
                 }
             } footer: {
-                let playerSampleCount = serverStatusViewModel.status?.playerSample.count ?? 0
-                let onlinePlayersCount = serverStatusViewModel.status?.onlinePlayerCount ?? 0
+                let playerSampleCount = serverStatusVM.status?.playerSample.count ?? 0
+                let onlinePlayersCount = serverStatusVM.status?.onlinePlayerCount ?? 0
                 
                 if playerSampleCount > 0 && playerSampleCount < onlinePlayersCount {
                     Text("*Player list limited to \(playerSampleCount) users by server")
@@ -61,7 +61,7 @@ struct WatchServerDetailScreen: View {
                 }
             }
         }
-        .navigationTitle(serverStatusViewModel.server.name)
+        .navigationTitle(serverStatusVM.server.name)
     }
 }
 

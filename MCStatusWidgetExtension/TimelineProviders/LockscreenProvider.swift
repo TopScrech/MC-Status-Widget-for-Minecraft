@@ -35,7 +35,7 @@ struct LockscreenProvider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> ServerStatusLSSnapshotEntry {
         var vm = WidgetEntryViewModel()
         vm.setForUnconfiguredView()
-        return ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), viewModel: vm)
+        return ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), vm: vm)
     }
     
     // is context.isPreview is true, this is the view to show when someone clicked add widget. Just show preview with placeholder data. if it is false, yo ushould actually load the current state of the view by getting the status
@@ -52,7 +52,7 @@ struct LockscreenProvider: AppIntentTimelineProvider {
         if context.isPreview {
             vm.viewType = .Preview
         }
-        return ServerStatusLSSnapshotEntry(date: Date(), configuration: configuration, viewModel: vm)
+        return ServerStatusLSSnapshotEntry(date: Date(), configuration: configuration, vm: vm)
     }
     
     
@@ -92,7 +92,7 @@ struct LockscreenProvider: AppIntentTimelineProvider {
                 // if user has nothing in the db tell them to open the app
                 vm.serverName = "Open App"
             }
-            let entry = ServerStatusLSSnapshotEntry(date: currentDate, configuration: configuration, viewModel: vm)
+            let entry = ServerStatusLSSnapshotEntry(date: currentDate, configuration: configuration, vm: vm)
             entries.append(entry)
             
             return Timeline(entries: entries, policy: .after(futureDate))
@@ -100,7 +100,7 @@ struct LockscreenProvider: AppIntentTimelineProvider {
         let serverIcon = ImageHelper.convertFavIconString(favIcon: serverStatus.favIcon) ?? UIImage(named: "DefaultIcon")!
         
         let vm = WidgetEntryViewModel(serverName: server.name, status: serverStatus, lastUpdated: "", serverIcon: serverIcon, theme: .auto)
-        let entry = ServerStatusLSSnapshotEntry(date: currentDate, configuration: configuration, viewModel: vm)
+        let entry = ServerStatusLSSnapshotEntry(date: currentDate, configuration: configuration, vm: vm)
         entries.append(entry)
         
         return Timeline(entries: entries, policy: .after(futureDate))

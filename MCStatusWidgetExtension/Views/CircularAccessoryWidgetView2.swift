@@ -7,13 +7,13 @@ struct CircularAccessoryWidgetView2 : View {
     
     var body: some View {
 #if !targetEnvironment(macCatalyst)
-        Gauge (value: entry.viewModel.progressValue) {
+        Gauge (value: entry.vm.progressValue) {
             ZStack {
-                if let statusIcon = entry.viewModel.statusIcon {
+                if let statusIcon = entry.vm.statusIcon {
                     Image(systemName: statusIcon)
                         .fontSize(24)
                         .padding(4)
-                } else if entry.viewModel.viewType == .Unconfigured {
+                } else if entry.vm.viewType == .Unconfigured {
 #if os(watchOS)
                     Text("...").padding(2) .multilineTextAlignment(.center)
 #else
@@ -21,7 +21,7 @@ struct CircularAccessoryWidgetView2 : View {
 #endif
                 } else {
                     if #available(iOSApplicationExtension 18, watchOS 11, *)  {
-                        Image(uiImage: entry.viewModel.icon).resizable()
+                        Image(uiImage: entry.vm.icon).resizable()
                             .widgetAccentedRenderingMode(.accentedDesaturated)
                             .scaledToFit()
                             .frame(width: 25, height: 25)
@@ -29,7 +29,7 @@ struct CircularAccessoryWidgetView2 : View {
                             .offset(y: -1)
                             .widgetAccentable()
                     } else {
-                        Image(uiImage: entry.viewModel.icon).resizable()
+                        Image(uiImage: entry.vm.icon).resizable()
                             .scaledToFit().frame(width: 25, height: 25)
                             .padding(0)
                             .widgetAccentable()
@@ -51,7 +51,7 @@ struct CircularAccessoryWidgetView2 : View {
 #if !targetEnvironment(macCatalyst)
 struct MinecraftServerStatusLSWidget_CircularPreview2: PreviewProvider {
     static var previews: some View {
-        MinecraftServerStatusLSWidgetEntryView(entry: ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), viewModel: WidgetEntryViewModel()), widgetType: .OnlyImage)
+        MinecraftServerStatusLSWidgetEntryView(entry: ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), vm: WidgetEntryViewModel()), widgetType: .OnlyImage)
             .previewContext(WidgetPreviewContext(family: .accessoryCircular))
     }
 }

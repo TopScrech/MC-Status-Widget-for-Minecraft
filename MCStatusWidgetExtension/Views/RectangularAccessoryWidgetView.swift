@@ -8,23 +8,23 @@ struct RectangularAccessoryWidgetView : View {
     var body: some View {
         
 #if !targetEnvironment(macCatalyst)
-        Gauge(value: entry.viewModel.progressValue) {
+        Gauge(value: entry.vm.progressValue) {
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 0) {
-                    if let statusIcon = entry.viewModel.statusIcon {
+                    if let statusIcon = entry.vm.statusIcon {
                         Image(systemName: statusIcon)
                             .fontSize(20)
                             .padding(2).widgetAccentable()
                     } else {
                         if #available(iOSApplicationExtension 18, watchOS 11, *) {
-                            Image(uiImage: entry.viewModel.icon).resizable()
+                            Image(uiImage: entry.vm.icon).resizable()
                                 .widgetAccentedRenderingMode(.accentedDesaturated)
                                 .scaledToFit()
                                 .frame(width: iconSize, height: iconSize)
                                 .padding(0)
                                 .widgetAccentable()
                         } else {
-                            Image(uiImage: entry.viewModel.icon).resizable()
+                            Image(uiImage: entry.vm.icon).resizable()
                                 .scaledToFit()
                                 .frame(width: iconSize, height: iconSize)
                                 .padding(0)
@@ -32,7 +32,7 @@ struct RectangularAccessoryWidgetView : View {
                         }
                     }
                     
-                    Text(entry.viewModel.serverName)
+                    Text(entry.vm.serverName)
                         .headline()
                         .padding(.leading, 5)
                     
@@ -53,7 +53,7 @@ struct RectangularAccessoryWidgetView : View {
                     .buttonStyle(.plain)
                 }
                 
-                Text(entry.viewModel.progressString)
+                Text(entry.vm.progressString)
             }
         }
         .gaugeStyle(.accessoryLinearCapacity)
@@ -65,7 +65,7 @@ struct RectangularAccessoryWidgetView : View {
 #warning("Migrate to the Preview macro")
 struct MinecraftServerStatusHSWidget_RectanglePreview: PreviewProvider {
     static var previews: some View {
-        MinecraftServerStatusLSWidgetEntryView(entry: ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), viewModel: WidgetEntryViewModel()))
+        MinecraftServerStatusLSWidgetEntryView(entry: ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), vm: WidgetEntryViewModel()))
             .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
     }
 }

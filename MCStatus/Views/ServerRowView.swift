@@ -2,11 +2,11 @@ import SwiftUI
 import MCStatusDataLayer
 
 struct ServerRowView: View {
-    var viewModel: ServerStatusViewModel
+    var vm: ServerStatusViewModel
     
     var body: some View {
         HStack {
-            Image(uiImage: viewModel.serverIcon)
+            Image(uiImage: vm.serverIcon)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 65.0, height: 65.0)
@@ -22,11 +22,11 @@ struct ServerRowView: View {
             VStack(alignment: .leading, spacing: 5) {
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(viewModel.server.name)
+                        Text(vm.server.name)
                             .headline()
                             .foregroundColor(.primary)
                         
-                        if let status = viewModel.status {
+                        if let status = vm.status {
                             if status.status == .Offline {
                                 Text(status.status.rawValue.capitalized)
                                     .subheadline()
@@ -38,8 +38,8 @@ struct ServerRowView: View {
                                     .secondary()
                             }
                             
-                        } else if viewModel.loadingStatus == .Loading {
-                            Text(viewModel.loadingStatus.rawValue)
+                        } else if vm.loadingStatus == .Loading {
+                            Text(vm.loadingStatus.rawValue)
                                 .subheadline()
                                 .secondary()
                         }
@@ -47,17 +47,17 @@ struct ServerRowView: View {
                     
                     Spacer()
                     
-                    if viewModel.loadingStatus == .Loading {
+                    if vm.loadingStatus == .Loading {
                         ProgressView()
                             .padding(.trailing, 5)
                     }
                 }
                 
-                CustomProgressView(progress: viewModel.getPlayerCountPercentage())
+                CustomProgressView(progress: vm.getPlayerCountPercentage())
                     .frame(height: 8)
                 
                 if UserDefaultHelper.shared.get(for: .showUsersOnHomesreen, defaultValue: true) {
-                    let sampletext = viewModel.getUserSampleText()
+                    let sampletext = vm.getUserSampleText()
                     
                     Text(sampletext)
                         .footnote()

@@ -17,8 +17,8 @@ struct WatchContentView: View {
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.modelContext) private var modelContext
     
-    @State private var serverViewModels: [ServerStatusViewModel]?
-    @State private var serverViewModelCache: [UUID:ServerStatusViewModel] = [:]
+    @State private var serverVMs: [ServerStatusViewModel]?
+    @State private var serverVMCache: [UUID: ServerStatusViewModel] = [:]
     @State private var iCloudStatus: iCloudStatus = .unknown
     @State private var lastRefreshTime = Date()
     
@@ -34,19 +34,19 @@ struct WatchContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(serverViewModels ?? []) { viewModel in
-                    NavigationLink(value: viewModel) {
-                        WatchServerRowView(vm: viewModel)
+                ForEach(serverVMs ?? []) { vm in
+                    NavigationLink(value: vm) {
+                        WatchServerRowView(vm: vm)
                     }
                 }
                 
                 //                Text("Updated \(minSinceLastRefresh)m ago").frame(maxWidth: .infinity, alignment: .center).listRowBackground(Color.clear) // this is ugly so removing it
             }
-            .navigationDestination(for: ServerStatusViewModel.self) { viewModel in
-                WatchServerDetailScreen(serverStatusViewModel: viewModel)
+            .navigationDestination(for: ServerStatusViewModel.self) { vm in
+                WatchServerDetailScreen(serverStatusVM: vm)
             }
             .toolbar {
-                if let serverViewModels, !serverViewModels.isEmpty {
+                if let serverVMs, !serverVMs.isEmpty {
                     ToolbarItem(placement: .topBarLeading) {
                         Text("Servers")
                             .fontSize(25)
@@ -65,7 +65,7 @@ struct WatchContentView: View {
             }
         }
         .overlay {
-            if self.iCloudStatus == .unavailable && serverViewModels?.isEmpty ?? true {
+            if self.iCloudStatus == .unavailable && serverVMs?.isEmpty ?? true {
                 VStack {
                     Spacer()
                     
@@ -79,7 +79,7 @@ struct WatchContentView: View {
                     
                     Spacer()
                 }
-            } else if let serverViewModels, serverViewModels.isEmpty {
+            } else if let serverVMs, serverVMs.isEmpty {
                 VStack {
                     Spacer()
                     
@@ -121,7 +121,7 @@ struct WatchContentView: View {
         }
         .onAppear {
             statusChecker.responseListener = { id, status in
-                guard let servervVM = self.serverViewModelCache[id] else {
+                guard let servervVM = self.serverVMCache[id] else {
                     return
                 }
                 
@@ -181,19 +181,19 @@ struct WatchContentView: View {
             sortBy: [.init(\.displayOrder)]
         )
         guard let servers = try? modelContext.fetch(fetch) else {
-            self.serverViewModels = []
+            self.serverVMs = []
             return
         }
         
         var serversToCheck:[SavedMinecraftServer] = []
         
-        self.serverViewModels = servers.map {
-            if let cachedVm = serverViewModelCache[$0.id] {
+        self.serverVMs = servers.map {
+            if let cachedVm = serverVMCache[$0.id] {
                 return cachedVm
             }
             
             let vm = ServerStatusViewModel(modelContext: self.modelContext, server: $0)
-            serverViewModelCache[$0.id] = vm
+            serverVMCache[$0.id] = vm
             
             if !forceRefresh {
                 serversToCheck.append($0)
@@ -205,7 +205,7 @@ struct WatchContentView: View {
         if forceRefresh {
             lastRefreshTime = Date()
             
-            for vm in self.serverViewModels ?? [] {
+            for vm in self.serverVMs ?? [] {
                 vm.loadingStatus = .Loading
             }
             

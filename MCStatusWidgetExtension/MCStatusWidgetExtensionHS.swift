@@ -11,9 +11,9 @@ struct MinecraftServerStatusHSWidget: Widget {
         AppIntentConfiguration(kind: kind, intent: ServerSelectWidgetIntent.self, provider: HomescreenProvider()) { entry in
             MinecraftServerStatusHSWidgetEntryView(entry: entry).containerBackground(for: .widget) {
                 if entry.configuration.Theme == nil || entry.configuration.Theme?.id ?? "" == Theme.auto.rawValue {
-                    entry.viewModel.bgColor
+                    entry.vm.bgColor
                 } else {
-                    entry.viewModel.bgColor
+                    entry.vm.bgColor
                         .environment(
                             \.colorScheme,
                              (entry.configuration.Theme?.id ?? "" == Theme.dark.rawValue)
@@ -53,5 +53,5 @@ struct MinecraftServerStatusHSWidgetEntryView : View {
 struct ServerStatusHSSnapshotEntry: TimelineEntry {
     let date: Date
     let configuration: ServerSelectWidgetIntent
-    let viewModel: WidgetEntryViewModel
+    let vm: WidgetEntryViewModel
 }

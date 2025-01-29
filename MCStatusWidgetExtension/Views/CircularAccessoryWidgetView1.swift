@@ -24,17 +24,17 @@ struct CircularAccessoryWidgetView1 : View {
     var body: some View {
         
 #if !targetEnvironment(macCatalyst)
-        Gauge(value: entry.viewModel.progressValue) {
+        Gauge(value: entry.vm.progressValue) {
             VStack(spacing: 1) {
                 ZStack {
                     HStack(spacing: 4) { // Adjust spacing as needed
-                        if let statusIcon = entry.viewModel.statusIcon {
+                        if let statusIcon = entry.vm.statusIcon {
                             Image(systemName: statusIcon)
                                 .fontSize(iconSize)
                                 .padding(2)
                                 .widgetAccentable()
                             
-                        } else if entry.viewModel.viewType == .Unconfigured {
+                        } else if entry.vm.viewType == .Unconfigured {
 #if os(watchOS)
                             Text("...")
                                 .padding(2)
@@ -46,7 +46,7 @@ struct CircularAccessoryWidgetView1 : View {
 #endif
                         } else {
                             if #available(iOSApplicationExtension 18, watchOS 11, *) {
-                                Image(uiImage: entry.viewModel.icon)
+                                Image(uiImage: entry.vm.icon)
                                     .resizable()
                                     .widgetAccentedRenderingMode(.accentedDesaturated)
                                     .scaledToFit()
@@ -55,7 +55,7 @@ struct CircularAccessoryWidgetView1 : View {
                                     .padding(.top, iconTopPadding)
                                     .widgetAccentable()
                             } else {
-                                Image(uiImage: entry.viewModel.icon)
+                                Image(uiImage: entry.vm.icon)
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: iconSize, height: iconSize)
@@ -72,7 +72,7 @@ struct CircularAccessoryWidgetView1 : View {
                     .buttonStyle(.plain)
                 }
                 
-                Text(entry.viewModel.progressString)
+                Text(entry.vm.progressString)
                     .padding(.bottom, 4)
                     .padding(.horizontal, 2)
                     .minimumScaleFactor(0.01)
@@ -87,7 +87,7 @@ struct CircularAccessoryWidgetView1 : View {
 #if !targetEnvironment(macCatalyst)
 struct MinecraftServerStatusHSWidget_CircularPreview: PreviewProvider {
     static var previews: some View {
-        MinecraftServerStatusLSWidgetEntryView(entry: ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), viewModel: WidgetEntryViewModel()))
+        MinecraftServerStatusLSWidgetEntryView(entry: ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), vm: WidgetEntryViewModel()))
             .previewContext(WidgetPreviewContext(family: .accessoryCircular))
     }
 }

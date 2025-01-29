@@ -11,14 +11,14 @@ struct ServerStatusDetailView: View {
     
     @State private var showingEditSheet = false
     @State private var showingDeleteAlert = false
-    @State var serverStatusViewModel: ServerStatusViewModel
+    @State var serverStatusVM: ServerStatusViewModel
     
     var parentViewRefreshCallBack: () -> Void
     
     var prefetcher = ImagePrefetcher()
     
     private var pillText: String {
-        if let status = serverStatusViewModel.status, serverStatusViewModel.loadingStatus != .Loading {
+        if let status = serverStatusVM.status, serverStatusVM.loadingStatus != .Loading {
             status.status.rawValue
         } else {
             " "
@@ -28,7 +28,7 @@ struct ServerStatusDetailView: View {
     private var pillColor: Color {
         var color = Color.standoutPillGrey
         
-        if let status = serverStatusViewModel.status, serverStatusViewModel.loadingStatus != .Loading {
+        if let status = serverStatusVM.status, serverStatusVM.loadingStatus != .Loading {
             if status.status == .Online {
                 color = Color.statusBackgroundGreen
             } else if status.status == .Offline {
@@ -40,7 +40,7 @@ struct ServerStatusDetailView: View {
     }
     
     private var playersText: String {
-        if let status = serverStatusViewModel.status {
+        if let status = serverStatusVM.status {
             "Players: \(status.onlinePlayerCount)/\(status.maxPlayerCount)"
         } else {
             ""
@@ -48,13 +48,11 @@ struct ServerStatusDetailView: View {
     }
     
     private var srvAddressText: String {
-        var text = ""
-        
-        if serverStatusViewModel.hasSRVRecord() {
-            text = "srv: " + serverStatusViewModel.server.srvServerUrl + ":" + String(serverStatusViewModel.server.srvServerPort)
+        if serverStatusVM.hasSRVRecord() {
+            "srv: " + serverStatusVM.server.srvServerUrl + ":" + String(serverStatusVM.server.srvServerPort)
+        } else {
+            ""
         }
-        
-        return text
     }
     
     private func pingColor(for strength: Int) -> Color {
@@ -80,7 +78,7 @@ struct ServerStatusDetailView: View {
             Section(header: Spacer(minLength: 0)) {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .top, spacing: 0) {
-                        Image(uiImage: serverStatusViewModel.serverIcon)
+                        Image(uiImage: serverStatusVM.serverIcon)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 100, height: 100)
@@ -96,11 +94,12 @@ struct ServerStatusDetailView: View {
                         // Drop shadow
                         
                         VStack(alignment: .leading, spacing: 0) {
-                            Text(serverStatusViewModel.server.name)
+                            Text(serverStatusVM.server.name)
                                 .title()
                                 .bold()
                             
-                            let serverAddressString = serverStatusViewModel.server.serverUrl + ":" + String(serverStatusViewModel.server.serverPort)
+                            let serverAddressString = serverStatusVM.server.serverUrl + ":" + String(serverStatusVM.server.serverPort)
+                            
                             Text(serverAddressString)
                                 .footnote()
                                 .foregroundColor(.secondaryTextColor)
@@ -125,7 +124,7 @@ struct ServerStatusDetailView: View {
                                         .subheadline()
                                         .cornerRadius(16)
                                     
-                                    if serverStatusViewModel.loadingStatus == .Loading {
+                                    if serverStatusVM.loadingStatus == .Loading {
                                         ProgressView()
                                     }
                                 }
@@ -153,7 +152,7 @@ struct ServerStatusDetailView: View {
                     }.padding(.bottom, 8)
                     
                     HStack(alignment: .top) {
-                        Text(serverStatusViewModel.server.serverType.rawValue)
+                        Text(serverStatusVM.server.serverType.rawValue)
                             .subheadline()
                             .padding(.horizontal, 6)
                             .padding(.vertical, 3)
@@ -162,7 +161,7 @@ struct ServerStatusDetailView: View {
                             .foregroundColor(.tertiaryTextColor)
                             .bold()
                         
-                        if let version = serverStatusViewModel.status?.version, !version.isEmpty {
+                        if let version = serverStatusVM.status?.version, !version.isEmpty {
                             Text(version)
                                 .subheadline()
                                 .padding(.top, 3)
@@ -170,7 +169,7 @@ struct ServerStatusDetailView: View {
                         }
                     }.padding(.bottom, 10)
                     
-                    if let status = serverStatusViewModel.status, let _ = status.description {
+                    if let status = serverStatusVM.status, let _ = status.description {
                         status.generateMOTDView()
                             .padding(10)
                             .frame(maxWidth: .infinity, alignment: .leading) // Make the Text view full width
@@ -183,7 +182,7 @@ struct ServerStatusDetailView: View {
                         .padding(.bottom, 10)
                         .padding(.top, 15)
                     
-                    CustomProgressView(progress: serverStatusViewModel.getPlayerCountPercentage())
+                    CustomProgressView(progress: serverStatusVM.getPlayerCountPercentage())
                         .frame(height:10)
                         .padding(.bottom, 10)
                 }
@@ -193,9 +192,9 @@ struct ServerStatusDetailView: View {
             .listRowBackground(Color.appBackgroundColor)
             
             Section {
-                ForEach(serverStatusViewModel.status?.playerSample ?? []) { player in
+                ForEach(serverStatusVM.status?.playerSample ?? []) { player in
                     HStack(spacing: 0) {
-                        let imageUrl = URL(string: serverStatusViewModel.getMcHeadsUrl(uuid: player.uuid))
+                        let imageUrl = URL(string: serverStatusVM.getMcHeadsUrl(uuid: player.uuid))
                         //                            let imageUrl = URL(string: "https://httpbin.org/delay/10")
                         LazyImage(url: imageUrl) { state in
                             if let image = state.image {
@@ -220,8 +219,8 @@ struct ServerStatusDetailView: View {
                     .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
                 }
             } footer: {
-                let playerSampleCount = serverStatusViewModel.status?.playerSample.count ?? 0
-                let onlinePlayersCount = serverStatusViewModel.status?.onlinePlayerCount ?? 0
+                let playerSampleCount = serverStatusVM.status?.playerSample.count ?? 0
+                let onlinePlayersCount = serverStatusVM.status?.onlinePlayerCount ?? 0
                 
                 if playerSampleCount > 0 && playerSampleCount < onlinePlayersCount {
                     Text("*Player list limited to \(playerSampleCount) users by server").frame(maxWidth: .infinity, alignment: .center)
@@ -233,7 +232,7 @@ struct ServerStatusDetailView: View {
         .environment(\.defaultMinListHeaderHeight, 15)
         .navigationBarTitleDisplayMode(.inline)
         .refreshable {
-            serverStatusViewModel.reloadData(config: ConfigHelper.getServerCheckerConfig())
+            serverStatusVM.reloadData(config: ConfigHelper.getServerCheckerConfig())
             refreshPing()
         }
         .toolbar {
@@ -264,7 +263,7 @@ struct ServerStatusDetailView: View {
         }
         .onAppear {
             refreshPing()
-            startPrefetchingUserImages(viewModel: serverStatusViewModel)
+            startPrefetchingUserImages(vm: serverStatusVM)
         }
         .alert("Delete Server?", isPresented: $showingDeleteAlert) {
             Button("Delete", role: .destructive) {
@@ -275,8 +274,8 @@ struct ServerStatusDetailView: View {
         }
         .sheet($showingEditSheet) {
             NavigationStack {
-                EditServerView(server: serverStatusViewModel.server, isPresented: $showingEditSheet) {
-                    serverStatusViewModel.reloadData(config: ConfigHelper.getServerCheckerConfig())
+                EditServerView(server: serverStatusVM.server, isPresented: $showingEditSheet) {
+                    serverStatusVM.reloadData(config: ConfigHelper.getServerCheckerConfig())
                     parentViewRefreshCallBack()
                 }
             }
@@ -285,7 +284,7 @@ struct ServerStatusDetailView: View {
     
     private func refreshPing() {
         Task {
-            let pingResult = await SwiftyPing.pingServer(serverUrl: serverStatusViewModel.getServerAddressToPing())
+            let pingResult = await SwiftyPing.pingServer(serverUrl: serverStatusVM.getServerAddressToPing())
             
             guard pingResult.error == nil else {
                 return
@@ -297,7 +296,7 @@ struct ServerStatusDetailView: View {
     }
     
     private func deleteServer() {
-        modelContext.delete(serverStatusViewModel.server)
+        modelContext.delete(serverStatusVM.server)
         
         do {
             // Try to save
@@ -314,9 +313,9 @@ struct ServerStatusDetailView: View {
         self.presentationMode.wrappedValue.dismiss()
     }
     
-    func startPrefetchingUserImages(viewModel: ServerStatusViewModel) {
-        let imageURLs = (viewModel.status?.playerSample ?? []).compactMap {
-            URL(string: viewModel.getMcHeadsUrl(uuid: $0.uuid))
+    func startPrefetchingUserImages(vm: ServerStatusViewModel) {
+        let imageURLs = (vm.status?.playerSample ?? []).compactMap {
+            URL(string: vm.getMcHeadsUrl(uuid: $0.uuid))
         }
         
         // Initialize and start prefetching all the image URLs

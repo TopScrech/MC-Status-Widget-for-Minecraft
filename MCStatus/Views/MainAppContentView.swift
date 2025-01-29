@@ -17,47 +17,50 @@ struct MainAppContentView: View {
     @Environment(\.requestReview) private var requestReview
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.modelContext) private var modelContext
-    @State private var serverViewModels: [ServerStatusViewModel]?
+    @State private var serverVMs: [ServerStatusViewModel]?
     // i cant think of a better way to do this since i dont want to regenerate the view model every time
-    @State private var serverViewModelCache: [UUID:ServerStatusViewModel] = [:]
+    @State private var serverVMCache: [UUID: ServerStatusViewModel] = [:]
     @State private var showingAddSheet = false
     @State private var showReleaseNotes = false
     @State private var lastRefreshTime = Date()
     @State private var navPath = NavigationPath()
     @State private var pendingDeepLink: String?
-    @State private var showAlert: Bool = false
-    @State private var alertTitle: String = ""
-    @State private var alertMessage: String = ""
+    @State private var showAlert = false
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
     
     private var reviewHelper = ReviewHelper()
     
     var body: some View {
         NavigationStack(path: $navPath) {
             List {
-                ForEach(serverViewModels ?? []) { viewModel in
-                    NavigationLink(value: viewModel) {
-                        ServerRowView(viewModel: viewModel)
+                ForEach(serverVMs ?? []) { vm in
+                    NavigationLink(value: vm) {
+                        ServerRowView(vm: vm)
                     }
                     .listRowInsets(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
                 }
                 .onMove {
-                    serverViewModels?.move(fromOffsets: $0, toOffset: $1)
+                    serverVMs?.move(fromOffsets: $0, toOffset: $1)
                     //update underlying display order
                     refreshDisplayOrders()
                 }
                 // .onDelete(perform: deleteItems)
                 // uncomment to enable swipe to delete. You can also use a custom Swipe Action instead of this to block full swipes and require partial swipe + tap
-            }.navigationDestination(for: ServerStatusViewModel.self) { viewModel in
-                ServerStatusDetailView(serverStatusViewModel: viewModel) {
+            }
+            .navigationDestination(for: ServerStatusViewModel.self) { vm in
+                ServerStatusDetailView(serverStatusVM: vm) {
                     reloadData()
                     refreshDisplayOrders()
                 }
-            }.navigationDestination(for: PageDestinations.self) { destination in
+            }
+            .navigationDestination(for: PageDestinations.self) { destination in
                 switch destination {
                 case .SettingsRoot:
                     SettingsRootView()
                 }
-            }.navigationDestination(for: SettingsPageDestinations.self) { destination in
+            }
+            .navigationDestination(for: SettingsPageDestinations.self) { destination in
                 switch destination {
                 case .GeneralSettings: GeneralSettingsView()
                 case .FAQ: FAQView(faqs: getiOSFAQs())
@@ -65,19 +68,22 @@ struct MainAppContentView: View {
                 case .Siri: SiriGuideView()
                 case .WhatsNew: ReleaseNotesView(showDismissButton: false)
                 }
-            }.onOpenURL { url in
+            }
+            .onOpenURL { url in
                 print("Received deep link: \(url)")
                 //manually go into specific server if id is server.
-                if let serverUUID = UUID(uuidString: url.absoluteString), let vm = self.serverViewModelCache[serverUUID] {
-                    goToServerView(viewModel: vm)
+                if let serverUUID = UUID(uuidString: url.absoluteString), let vm = self.serverVMCache[serverUUID] {
+                    goToServerView(vm: vm)
                 } else if !url.absoluteString.isEmpty {
                     self.pendingDeepLink = url.absoluteString
                 }
-            }.refreshable {
+            }
+            .refreshable {
                 reloadData(forceRefresh: true)
-            }.overlay {
+            }
+            .overlay {
                 //hack to avoid showing overlay for a split second before we have had a chance to check the database
-                if  let viewModels = self.serverViewModels,  viewModels.isEmpty {
+                if  let viewModels = self.serverVMs,  viewModels.isEmpty {
                     ContentUnavailableView {
                         Label("Add Your First Server", systemImage: "server.rack")
                     } description: {
@@ -88,10 +94,11 @@ struct MainAppContentView: View {
                         }
                         .buttonStyle(.borderedProminent)
                     }
-                } else if self.serverViewModels == nil {
+                } else if self.serverVMs == nil {
                     ProgressView()
                 }
-            }.toolbar {
+            }
+            .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     NavigationLink(value: PageDestinations.SettingsRoot) {
                         Label("Settings", systemImage: "gearshape")
@@ -113,7 +120,8 @@ struct MainAppContentView: View {
                         Label("Add Item", systemImage: "plus")
                     }
                 }
-            }.navigationTitle("Servers")
+            }
+            .navigationTitle("Servers")
         }
         .onChange(of: scenePhase, initial: true) { _, newPhase in
             // this is some code to investigate an apple watch bug
@@ -216,7 +224,7 @@ struct MainAppContentView: View {
         showAlert = true
     }
     
-    private func goToServerView(viewModel: ServerStatusViewModel) {
+    private func goToServerView(vm: ServerStatusViewModel) {
         // check if user has disabled deep links, if so just go to main list
         if !UserDefaultHelper.shared.get(for: .openToSpecificServer, defaultValue: true) {
             self.navPath.removeLast(self.navPath.count)
@@ -230,17 +238,17 @@ struct MainAppContentView: View {
             
             Task {
                 // hack! otherwise data wont refresh correctly
-                self.navPath.append(viewModel)
+                self.navPath.append(vm)
             }
         } else {
-            self.navPath.append(viewModel)
+            self.navPath.append(vm)
         }
     }
     
     private func deleteItems(at offsets: IndexSet) {
         offsets.makeIterator().forEach { pos in
-            if let serverViewModel = serverViewModels?[pos] {
-                modelContext.delete(serverViewModel.server)
+            if let serverVM = serverVMs?[pos] {
+                modelContext.delete(serverVM.server)
             }
         }
         
@@ -250,11 +258,11 @@ struct MainAppContentView: View {
             print(error.localizedDescription)
         }
         
-        serverViewModels?.remove(atOffsets: offsets)
+        serverVMs?.remove(atOffsets: offsets)
     }
     
     private func refreshDisplayOrders() {
-        serverViewModels?.enumerated().forEach { index, vm in
+        serverVMs?.enumerated().forEach { index, vm in
             vm.server.displayOrder = index + 1
             modelContext.insert(vm.server)
         }
@@ -281,21 +289,22 @@ struct MainAppContentView: View {
         )
         
         guard let results = try? modelContext.fetch(fetch) else {
-            self.serverViewModels = []
+            self.serverVMs = []
             return
         }
         
         var config = ConfigHelper.getServerCheckerConfig()
         
-        self.serverViewModels = results.map {
-            if let cachedVm = serverViewModelCache[$0.id] {
+        self.serverVMs = results.map {
+            if let cachedVm = serverVMCache[$0.id] {
                 return cachedVm
             }
             
-            //first time we are seeing this server. force srv refresh if needed.
+            //first time we are seeing this server. force srv refresh if needed
             config.forceSRVRefresh = forceSRVRefreh
+            
             let vm = ServerStatusViewModel(modelContext: self.modelContext, server: $0)
-            serverViewModelCache[$0.id] = vm
+            serverVMCache[$0.id] = vm
             
             if !forceRefresh {
                 vm.reloadData(config: config)
@@ -307,7 +316,7 @@ struct MainAppContentView: View {
         if forceRefresh {
             self.lastRefreshTime = Date()
             
-            self.serverViewModels?.forEach { vm in
+            self.serverVMs?.forEach { vm in
                 vm.reloadData(config: config)
             }
         }
@@ -315,9 +324,9 @@ struct MainAppContentView: View {
     }
     
     private func checkForPendingDeepLink() {
-        if let pendingDeepLink, let serverID = UUID(uuidString: pendingDeepLink), let vm = self.serverViewModelCache[serverID] {
+        if let pendingDeepLink, let serverID = UUID(uuidString: pendingDeepLink), let vm = self.serverVMCache[serverID] {
             self.pendingDeepLink = nil
-            goToServerView(viewModel: vm)
+            goToServerView(vm: vm)
         }
     }
     
@@ -339,7 +348,7 @@ struct MainAppContentView: View {
     private func checkForAppReviewRequest() {
         reviewHelper.appLaunched()
         // dont show if they didnt add any servers
-        if self.serverViewModels?.isEmpty ?? true {
+        if self.serverVMs?.isEmpty ?? true {
             return
         }
         

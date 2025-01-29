@@ -26,7 +26,7 @@ struct BaseWidgetView: View {
     var body: some View {
         ZStack {
             VStack(alignment: .trailing, spacing: 0) {
-                Text(entry.viewModel.serverName)
+                Text(entry.vm.serverName)
                     .fontWeight(.semibold)
                     .foregroundColor(.semiTransparentText)
                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -45,7 +45,7 @@ struct BaseWidgetView: View {
                             .invalidatableContent()
                         // You can adjust the size as needed
                         
-                        Text(entry.viewModel.lastUpdated)
+                        Text(entry.vm.lastUpdated)
                             .fontSize(14)
                             .lineLimit(1)
                             .foregroundColor(.veryTransparentText)
@@ -62,19 +62,19 @@ struct BaseWidgetView: View {
                 ZStack {
                     // hack for allowing widgetAccentedRenderingMode
                     if #available(iOSApplicationExtension 18, *) {
-                        Image(uiImage: entry.viewModel.icon)
+                        Image(uiImage: entry.vm.icon)
                             .resizable()
                             .widgetAccentedRenderingMode(.accentedDesaturated)
                             .scaledToFit()
                             .frame(width: 36, height: 36, alignment: .leading)
                             .widgetAccentable()
                     } else {
-                        Image(uiImage: entry.viewModel.icon)
+                        Image(uiImage: entry.vm.icon)
                             .resizable()
                             .scaledToFit().frame(width: 36, height: 36, alignment: .leading)
                     }
                     
-                    if let statusIcon = entry.viewModel.statusIcon, !statusIcon.isEmpty {
+                    if let statusIcon = entry.vm.statusIcon, !statusIcon.isEmpty {
                         if widgetRenderingMode == .accented {
                             Image(systemName: statusIcon)
                                 .fontSize(24)
@@ -87,25 +87,25 @@ struct BaseWidgetView: View {
                                 .background {
                                     Color.white.mask(Circle()).padding(4)
                                 }
-                                .offset(x: 18, y: 0)
+                                .offset(x: 18)
                                 .widgetAccentable()
                         }
                     }
                 }
                 
-                Text(entry.viewModel.progressString)
+                Text(entry.vm.progressString)
                     .bold()
-                    .fontSize(CGFloat(entry.viewModel.progressStringSize))
+                    .fontSize(CGFloat(entry.vm.progressStringSize))
                     .foregroundColor(.regularText)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top,3)
                     .padding(.trailing, 16)
-                    .opacity(entry.viewModel.progressStringAlpha)
+                    .opacity(entry.vm.progressStringAlpha)
                 
-                if entry.viewModel.statusIcon == nil {
-                    CustomProgressView(progress: CGFloat(entry.viewModel.progressValue), bgOpactiy: self.progressBgOpacity, bgColor: self.progressBgColor)
+                if entry.vm.statusIcon == nil {
+                    CustomProgressView(progress: CGFloat(entry.vm.progressValue), bgOpactiy: self.progressBgOpacity, bgColor: self.progressBgColor)
                         .frame(height: 6)
                         .padding(.top, 6)
                 }
@@ -137,7 +137,7 @@ struct SmallWidgetView : View {
 
 struct MinecraftServerStatusHSWidget_SmallPreview: PreviewProvider {
     static var previews: some View {
-        MinecraftServerStatusHSWidgetEntryView(entry: ServerStatusHSSnapshotEntry(date: Date(), configuration: ServerSelectWidgetIntent(), viewModel: WidgetEntryViewModel()))
+        MinecraftServerStatusHSWidgetEntryView(entry: ServerStatusHSSnapshotEntry(date: Date(), configuration: ServerSelectWidgetIntent(), vm: WidgetEntryViewModel()))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
