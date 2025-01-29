@@ -57,7 +57,9 @@ extension WidgetEntryVM {
                     $0.name.lowercased() < $1.name.lowercased()
                 }
             }
-            var playerListString = playerList.map{ $0.name }.joined(separator: ", ")
+            var playerListString = playerList.map {
+                $0.name
+            }.joined(separator: ", ")
             
             if status.onlinePlayerCount > status.playerSample.count {
                 playerListString += ",..."
@@ -111,7 +113,6 @@ extension WidgetEntryVM {
         self.viewType = .Unconfigured
     }
 }
-
 
 public struct WidgetEntryVM {
     var lastUpdated: String

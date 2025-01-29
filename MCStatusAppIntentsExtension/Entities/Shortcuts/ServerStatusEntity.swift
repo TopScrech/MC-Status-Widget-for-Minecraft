@@ -37,7 +37,7 @@ struct ServerStatusEntity: AppEntity {
         maxPlayerCount = serverStatus.maxPlayerCount
         onlineStatus = serverStatus.status.rawValue
         motd = serverStatus.description?.getRawText() ?? ""
-        playerSample = serverStatus.playerSample.map{ $0.name }.joined(separator: ",")
+        playerSample = serverStatus.playerSample.map { $0.name }.joined(separator: ",")
         querySource = (serverStatus.source == .ThirdParty) ? "Web" : "Phone"
     }
 }

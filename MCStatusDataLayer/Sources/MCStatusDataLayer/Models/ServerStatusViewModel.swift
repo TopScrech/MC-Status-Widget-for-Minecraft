@@ -68,7 +68,10 @@ public class ServerStatusViewModel: Identifiable, Hashable {
     }
     
     public func getUserSampleText() -> String {
-        guard let status else { return "" }
+        guard let status else {
+            return ""
+        }
+        
         return status.playerSample.map {
             $0.name
         }.joined(separator: ", ")

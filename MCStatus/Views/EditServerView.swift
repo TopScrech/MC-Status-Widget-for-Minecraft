@@ -77,24 +77,25 @@ struct EditServerView: View {
                         .foregroundColor(.gray)
                         .headline()
                         .frame(width: 25, height: 25)
-                    TextField(portLabelPromptText, value: $tempPortInput, formatter: NumberFormatter(), prompt: Text(portLabelPromptText)).keyboardType(.numberPad)
+                    
+                    TextField(portLabelPromptText, value: $tempPortInput, formatter: NumberFormatter(), prompt: Text(portLabelPromptText))
+                        .keyboardType(.numberPad)
                 }
-            }.headerProminence(.increased)
+            }
+            .headerProminence(.increased)
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                Button {
+                Button("Cancel") {
                     isPresented = false
-                } label: {
-                    Text("Cancel")
                 }
             }
+            
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
+                Button("Save") {
                     saveItem()
-                } label: {
-                    Text("Save")
-                }.disabled(saveDisabled())
+                }
+                .disabled(saveDisabled())
             }
             
         }

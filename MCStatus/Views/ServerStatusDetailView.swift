@@ -7,7 +7,7 @@ import WidgetKit
 
 struct ServerStatusDetailView: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     
     @State private var showingEditSheet = false
     @State private var showingDeleteAlert = false
@@ -146,10 +146,11 @@ struct ServerStatusDetailView: View {
                                     .foregroundColor(.tertiaryTextColor)
                                     .cornerRadius(16)
                                 }
-                                
-                            }.padding(.top, 8)
+                            }
+                            .padding(.top, 8)
                         }
-                    }.padding(.bottom, 8)
+                    }
+                    .padding(.bottom, 8)
                     
                     HStack(alignment: .top) {
                         Text(serverStatusVM.server.serverType.rawValue)
@@ -167,7 +168,8 @@ struct ServerStatusDetailView: View {
                                 .padding(.top, 3)
                                 .foregroundColor(.secondaryTextColor)
                         }
-                    }.padding(.bottom, 10)
+                    }
+                    .padding(.bottom, 10)
                     
                     if let status = serverStatusVM.status, let _ = status.description {
                         status.generateMOTDView()
@@ -204,7 +206,9 @@ struct ServerStatusDetailView: View {
                             } else {
                                 ZStack {
                                     Color.placeholderGrey
-                                    ProgressView().opacity(0.3)
+                                    
+                                    ProgressView()
+                                        .opacity(0.3)
                                 }
                             }
                         }
@@ -223,7 +227,8 @@ struct ServerStatusDetailView: View {
                 let onlinePlayersCount = serverStatusVM.status?.onlinePlayerCount ?? 0
                 
                 if playerSampleCount > 0 && playerSampleCount < onlinePlayersCount {
-                    Text("*Player list limited to \(playerSampleCount) users by server").frame(maxWidth: .infinity, alignment: .center)
+                    Text("*Player list limited to \(playerSampleCount) users by server")
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
             }
         }
@@ -270,7 +275,7 @@ struct ServerStatusDetailView: View {
                 deleteServer()
             }
             
-            Button("Cancel", role: .cancel) { }
+            Button("Cancel", role: .cancel) {}
         }
         .sheet($showingEditSheet) {
             NavigationStack {

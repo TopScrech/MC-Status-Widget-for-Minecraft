@@ -11,12 +11,12 @@ enum PageDestinations {
 }
 
 struct MainAppContentView: View {
+    @Environment(\.requestReview) private var requestReview
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.modelContext) private var modelContext
     
     let watchHelper = WatchHelper()
     
-    @Environment(\.requestReview) private var requestReview
-    @Environment(\.scenePhase) var scenePhase
-    @Environment(\.modelContext) private var modelContext
     @State private var serverVMs: [ServerStatusViewModel]?
     // i cant think of a better way to do this since i dont want to regenerate the view model every time
     @State private var serverVMCache: [UUID: ServerStatusViewModel] = [:]
