@@ -19,7 +19,7 @@ struct WatchServerRowView: View {
                         .stroke(Color(hex: "6e6e6e"), lineWidth: 3)
                 }
                 .clipShape(.rect(cornerRadius: 5))
-                .padding([.trailing], 5)
+                .padding(.trailing, 5)
             
             VStack(alignment: .leading, spacing: 0) {
                 if let status = vm.status {

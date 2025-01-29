@@ -80,7 +80,7 @@ struct CircularAccessoryWidgetView1 : View {
                     Button(intent: RefreshWidgetIntent()) {
                         Color.clear
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(.plain)
                 }
                 
                 Text(entry.viewModel.progressString).padding(.bottom, 4).padding(.horizontal,2).minimumScaleFactor(0.01).fontWeight(.semibold)

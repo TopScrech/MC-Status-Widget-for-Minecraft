@@ -55,7 +55,7 @@ struct CircularAccessoryWidgetView2 : View {
                 Button(intent: RefreshWidgetIntent()) {
                     Color.clear
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.plain)
             }
             
         }

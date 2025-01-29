@@ -43,14 +43,16 @@ struct MainAppContentView: View {
                 ForEach(serverViewModels ?? []) { viewModel in
                     NavigationLink(value: viewModel) {
                         ServerRowView(viewModel: viewModel)
-                    }.listRowInsets(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
+                    }
+                    .listRowInsets(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
                 }
                 .onMove {
                     serverViewModels?.move(fromOffsets: $0, toOffset: $1)
                     //update underlying display order
                     refreshDisplayOrders()
                 }
-//                .onDelete(perform: deleteItems) // uncomment to enable swipe to delete. You can also use a custom Swipe Action instead of this to block full swipes and require partial swipe + tap
+                // .onDelete(perform: deleteItems)
+                // uncomment to enable swipe to delete. You can also use a custom Swipe Action instead of this to block full swipes and require partial swipe + tap
             }.navigationDestination(for: ServerStatusViewModel.self) { viewModel in
                 ServerStatusDetailView(serverStatusViewModel: viewModel) {
                     reloadData()
@@ -63,12 +65,11 @@ struct MainAppContentView: View {
                 }
             }.navigationDestination(for: SettingsPageDestinations.self) { destination in
                 switch destination {
-                    case .GeneralSettings: GeneralSettingsView()
-                    case .FAQ: FAQView(faqs: getiOSFAQs())
-                    case .Shortcuts: ShortcutsGuideView()
-                    case .Siri: SiriGuideView()
-                    case .WhatsNew: ReleaseNotesView(showDismissButton: false)
-                    
+                case .GeneralSettings: GeneralSettingsView()
+                case .FAQ: FAQView(faqs: getiOSFAQs())
+                case .Shortcuts: ShortcutsGuideView()
+                case .Siri: SiriGuideView()
+                case .WhatsNew: ReleaseNotesView(showDismissButton: false)
                 }
             }.onOpenURL { url in
                 print("Received deep link: \(url)")
@@ -102,7 +103,7 @@ struct MainAppContentView: View {
                         Label("Settings", systemImage: "gearshape")
                     }
                 }
-                #if targetEnvironment(macCatalyst) // Gross (show refresh button only on mac status bar since they can't pull to refresh)
+#if targetEnvironment(macCatalyst) // Gross (show refresh button only on mac status bar since they can't pull to refresh)
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         reloadData(forceRefresh: true)
@@ -110,7 +111,7 @@ struct MainAppContentView: View {
                         Label("Refresh Servers", systemImage: "arrow.clockwise")
                     }
                 }
-                #endif
+#endif
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showingAddSheet.toggle()
@@ -120,7 +121,7 @@ struct MainAppContentView: View {
                 }
             }.navigationTitle("Servers")
         }
-        .onChange(of: scenePhase, initial: true) { old,newPhase in
+        .onChange(of: scenePhase, initial: true) { _, newPhase in
             // this is some code to investigate an apple watch bug
             if newPhase == .active {
                 print("Active")
@@ -132,8 +133,11 @@ struct MainAppContentView: View {
             } else if newPhase == .background {
                 print("Background")
             }
-        }.onReceive(NotificationCenter.default.publisher(for: NSPersistentCloudKitContainer.eventChangedNotification)) { notification in
-            guard let event = notification.userInfo?[NSPersistentCloudKitContainer.eventNotificationUserInfoKey] as? NSPersistentCloudKitContainer.Event else {
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSPersistentCloudKitContainer.eventChangedNotification)) { notification in
+            guard
+                let event = notification.userInfo?[NSPersistentCloudKitContainer.eventNotificationUserInfoKey] as? NSPersistentCloudKitContainer.Event
+            else {
                 return
             }
             
@@ -143,11 +147,22 @@ struct MainAppContentView: View {
                 print("refresh triggered via eventChangedNotification")
                 MCStatusShortcutsProvider.updateAppShortcutParameters()
                 reloadData()
-                
             }
-        }.sheet($showingAddSheet) {
+        }
+        .sheet($showingAddSheet) {
             // create new binding server to add
-            let newServer = SavedMinecraftServer.initialize(id: UUID(), serverType: .Java, name: "", serverUrl: "", serverPort: 0, srvServerUrl: "", srvServerPort: 0, serverIcon: "", displayOrder: 0)
+            let newServer = SavedMinecraftServer.initialize(
+                id: UUID(),
+                serverType: .Java,
+                name: "",
+                serverUrl: "",
+                serverPort: 0,
+                srvServerUrl: "",
+                srvServerPort: 0,
+                serverIcon: "",
+                displayOrder: 0
+            )
+            
             NavigationStack {
                 EditServerView(server: newServer, isPresented: $showingAddSheet) {
                     // callback when server is edited or added
@@ -155,28 +170,32 @@ struct MainAppContentView: View {
                     refreshDisplayOrders()
                 }
             }
-        }.sheet($showReleaseNotes) {
+        }
+        .sheet($showReleaseNotes) {
             NavigationStack {
                 ReleaseNotesView()
             }
-        }.onAppear() {
+        }
+        .onAppear {
             let migrationResult = MigrationHelper.migrationIfNeeded()
+            
             if let migrationResult {
                 let old_v =  migrationResult.0
                 let new_v = migrationResult.1
+                
                 if old_v == 0 && new_v >= 1 {
                     checkForBrokenWidgets()
                 }
                 // just migration to 2.0! check if showing error alert and show new stuff sheet
             }
-        }.alert(isPresented: $showAlert) {
+        }
+        .alert(isPresented: $showAlert) {
             Alert(
                 title: Text(alertTitle),
                 message: Text(alertMessage),
-                dismissButton: .default(Text("OK"),
-                action: {
+                dismissButton: .default(Text("OK")) {
                     showReleaseNotes = true
-                })
+                }
             )
         }
     }
@@ -204,17 +223,17 @@ struct MainAppContentView: View {
     }
     
     private func goToServerView(viewModel: ServerStatusViewModel) {
-        
         // check if user has disabled deep links, if so just go to main list
         if !UserDefaultHelper.shared.get(for: .openToSpecificServer, defaultValue: true) {
             self.navPath.removeLast(self.navPath.count)
             return
         }
-       
+        
         // go to server view.
         // first check if we are already showing a server, and if so, just update it.
         if !self.navPath.isEmpty {
             self.navPath.removeLast(self.navPath.count)
+            
             Task {
                 // hack! otherwise data wont refresh correctly
                 self.navPath.append(viewModel)
@@ -222,7 +241,6 @@ struct MainAppContentView: View {
         } else {
             self.navPath.append(viewModel)
         }
-        
     }
     
     private func deleteItems(at offsets: IndexSet) {
@@ -241,7 +259,6 @@ struct MainAppContentView: View {
         serverViewModels?.remove(atOffsets: offsets)
     }
     
-    
     private func refreshDisplayOrders() {
         serverViewModels?.enumerated().forEach { index, vm in
             vm.server.displayOrder = index + 1
@@ -257,24 +274,25 @@ struct MainAppContentView: View {
         }
     }
     
-    
-    private func reloadData(forceRefresh:Bool = false, forceSRVRefreh:Bool = false) {        
+    private func reloadData(forceRefresh:Bool = false, forceSRVRefreh:Bool = false) {
         // crashes when run in background from apple watch??
         // FB13069019
         guard scenePhase != .background else {
             return
         }
-            
+        
         let fetch = FetchDescriptor<SavedMinecraftServer>(
             predicate: nil,
             sortBy: [.init(\.displayOrder)]
         )
+        
         guard let results = try? modelContext.fetch(fetch) else {
             self.serverViewModels = []
             return
         }
         
         var config = ConfigHelper.getServerCheckerConfig()
+        
         self.serverViewModels = results.map {
             if let cachedVm = serverViewModelCache[$0.id] {
                 return cachedVm
@@ -284,14 +302,17 @@ struct MainAppContentView: View {
             config.forceSRVRefresh = forceSRVRefreh
             let vm = ServerStatusViewModel(modelContext: self.modelContext, server: $0)
             serverViewModelCache[$0.id] = vm
+            
             if !forceRefresh {
                 vm.reloadData(config: config)
             }
+            
             return vm
         }
-                
+        
         if forceRefresh {
             self.lastRefreshTime = Date()
+            
             self.serverViewModels?.forEach { vm in
                 vm.reloadData(config: config)
             }
@@ -308,9 +329,9 @@ struct MainAppContentView: View {
     
     private func checkForAutoReload() {
         let currentTime = Date()
-
+        
         let timeInterval = currentTime.timeIntervalSince(lastRefreshTime)
-
+        
         guard timeInterval > 60 else {
             return
         }
@@ -320,21 +341,20 @@ struct MainAppContentView: View {
         
         WidgetCenter.shared.reloadAllTimelines()
     }
-
+    
     private func checkForAppReviewRequest() {
         reviewHelper.appLaunched()
         // dont show if they didnt add any servers
         if self.serverViewModels?.isEmpty ?? true {
             return
         }
+        
         if reviewHelper.shouldShowRequestView() {
             Task {
                 try await Task.sleep(for: .seconds(6))
                 requestReview()
                 reviewHelper.didShowReview()
             }
-            
         }
     }
-    
 }

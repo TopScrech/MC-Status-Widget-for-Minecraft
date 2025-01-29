@@ -8,7 +8,7 @@ import Foundation
 import Network
 
 /**
-    This code could def use come cleanup, but overall does the job pretty well
+ This code could def use come cleanup, but overall does the job pretty well
  */
 public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
     let serverAddress: String
@@ -75,11 +75,11 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
         }
         
         let connection = NWConnection(host: NWEndpoint.Host(self.serverAddress), port: port, using: .tcp)
-
+        
         
         // set a 5 second timeout to receive the data.
         self.timeoutTask = Task {
-
+            
             try await Task.sleep(nanoseconds: UInt64(5) * NSEC_PER_SEC)
             //see if we got any data so far, if we did wait 3 more seconds.
             if self.recievedData {
@@ -94,33 +94,32 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
         
         connection.stateUpdateHandler = { newState in
             switch newState {
-                case .ready:
-                    print("Connection established.")
-                    connection.send(content: dataToSend, completion: .contentProcessed { error in
-                        if let error = error {
-                            print("Error sending data: \(error)")
-                            self.callContinuationError(error: ServerStatusCheckerError.ServerUnreachable)
-                            connection.cancel()
-                        } else {
-                            // nothing to do now, just wait for the response in the other listener
-                            print("Data sent successfully.")
-                        }
-                    })
-                    
-                case .failed(let error):
+            case .ready:
+                print("Connection established.")
+                connection.send(content: dataToSend, completion: .contentProcessed { error in
+                    if let error = error {
+                        print("Error sending data: \(error)")
+                        self.callContinuationError(error: ServerStatusCheckerError.ServerUnreachable)
+                        connection.cancel()
+                    } else {
+                        // nothing to do now, just wait for the response in the other listener
+                        print("Data sent successfully.")
+                    }
+                })
+                
+            case .failed(let error):
                 print("Connection failed with error: \(error)" + "   -   server: " + self.serverAddress)
-                    self.callContinuationError(error: ServerStatusCheckerError.ServerUnreachable)
-                    connection.cancel()
-            
-//                case .preparing, .setup:
-//                    print("Connection preparing or setup.")
-//
-//                case .waiting(let error):
-//                    print("Connection waiting with error: \(error)" + "   -   server: " + self.serverAddress)
+                self.callContinuationError(error: ServerStatusCheckerError.ServerUnreachable)
+                connection.cancel()
                 
+                //                case .preparing, .setup:
+                //                    print("Connection preparing or setup.")
+                //
+                //                case .waiting(let error):
+                //                    print("Connection waiting with error: \(error)" + "   -   server: " + self.serverAddress)
                 
-                default:
-                    break
+            default:
+                break
             }
         }
         
@@ -139,11 +138,11 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
         // i have implemented TCP paging logic since the response may be sent over multitple packets
         // i would prefer to use connection.receiveMessage like in UDP for the bedrock server, but in my testing, java minecraft servers do not automatically close the connection after the message is finished sending, so you need to manually keep track of the incoming data packets and close the connection once you have received all the expected data
         connection.receive(minimumIncompleteLength: 1, maximumLength: 65536) { [self] data, _, isComplete, error in
-            if let error = error {
+            if let error {
                 print("Error receiving data: \(error)" + "  -  address: " + self.serverAddress)
                 self.callContinuationError(error: ServerStatusCheckerError.ServerUnreachable)
                 connection.cancel()
-            } else if let data = data {
+            } else if let data {
                 print("Data: \(data)")
                 
                 // when we get here, the server has returned a chunk of data. we need to dynamaically store the chunks of data in an array to we can reconstruct it whole once we are finished downloading.
@@ -152,13 +151,13 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
                 var expectedMessageSize = -1
                 
                 // set car so timeout knows to wait longer if we got any data
-                if (dataArr.count > 0) {
+                if dataArr.count > 0 {
                     self.recievedData = true
                 }
                 
                 // we need to make sure we have enough data downloaded from the server to read the expected message length.
                 // We actually don't have any idea how much mean to read so I just guess that it won't be more than 64 bites.
-                if (dataArr.count >= 64) {
+                if dataArr.count >= 64 {
                     // here we are checking if this is the first check of data we are requesting, and if so, the first bit of data we need to read is the expected length of the message which is sent first. But once we have that size, we need to continue passing it recursivly so the child calls know when to stop asking for data
                     expectedMessageSize = if (expectedSize == -1) {
                         readVariableSizedInt(bytes: &dataArr)
@@ -169,7 +168,6 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
                     //this should be exactly equal, and is in testing, but i'm using >= just to be extra safe we arent left hanging
                     messageComplete = expectedMessageSize > 0 && dataArr.count >= expectedMessageSize
                 }
-                
                 
                 // if we have the expected message length already, we can continue with parsing, if not, recursivly call this function to download the next chunk of data
                 if messageComplete {
@@ -218,8 +216,9 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
     // Im open to any sugestions of better ways to do this not so manually.
     // https://en.wikipedia.org/wiki/Variable-length_quantity
     private func readVariableSizedInt(bytes: inout [UInt8]) -> Int {
-        var result = 0;
-        var shift = 0;
+        var result = 0
+        var shift = 0
+        
         for _ in 0...bytes.count {
             if bytes.count == 0 {
                 return 0
@@ -228,6 +227,7 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
             let byte = bytes.removeFirst()
             result |= (Int(byte) & 0b1111111) << shift
             shift += 7
+            
             if (Int(byte) & 0b10000000) == 0 {
                 return result
             }
@@ -236,20 +236,20 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
         return result
     }
     
-
+    
     // This is a function to generate the data that we sent to the minecraft server, in order to tell it we want to request the query data
     /** Minecraft protocol can be found here: https://wiki.vg/Protocol#Clientbound
      * sends a request directly to the minecraft server for a ping request.
      1. Client sends:
-       1a. \x00 (handshake packet containing the fields specified below)
-       1b. \x00 (request)
+     1a. \x00 (handshake packet containing the fields specified below)
+     1b. \x00 (request)
      The handshake packet contains the following fields respectively:
-         1. protocol version as a varint (\x00 suffices)
-         2. remote address as a string
-         3. remote port as an unsigned short
-         4. state as a varint (should be 1 for status)
+     1. protocol version as a varint (\x00 suffices)
+     2. remote address as a string
+     3. remote port as an unsigned short
+     4. state as a varint (should be 1 for status)
      2. Server responds with:
-       2a. \x00 (JSON response)
+     2a. \x00 (JSON response)
      An example JSON string contains:
      {'players': {'max': 20, 'online': 0},
      'version': {'protocol': 404, 'name': '1.13.2'},
@@ -274,6 +274,7 @@ public class JavaServerStatusChecker: ServerStatusCheckerProtocol {
         let portBytes = withUnsafeBytes(of: port) {
             [$0[1], $0[0]]
         }
+        
         data += portBytes //the bytes for the server port
         
         data.append(0x01) //request type (status_handshake = 1)

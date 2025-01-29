@@ -61,7 +61,7 @@ struct BaseWidgetView: View {
                         Text(entry.viewModel.lastUpdated).font(.system(size: 14)).lineLimit(1).foregroundColor(.veryTransparentText) // This is your variable text
                     }
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.plain)
                 Spacer()
             }
             

@@ -1,37 +1,29 @@
-//
-//  EditServerView.swift
-//  MC Status
-//
-//  Created by Tomer Shemesh on 8/13/23.
-//
-
 import SwiftUI
 import SwiftData
 import MCStatusDataLayer
 import WidgetKit
 
 struct EditServerView: View {
-    
     private enum FocusedField {
         case serverName, serverAddress
     }
     
     @Environment(\.modelContext) private var modelContext
-
+    
     @State var server: SavedMinecraftServer
     
     @Binding var isPresented: Bool
     var parentViewRefreshCallBack: () -> Void
     
     @FocusState private var focusedField: FocusedField?
-
+    
     @State var tempNameInput = ""
     @State var tempServerInput = ""
     @State var tempPortInput: Int? = nil
     @State var tempServerType = ServerType.Java
-
+    
     @State var portLabelPromptText = "Port (Optional - Default 25565)"
-
+    
     @State private var showingInvalidURLAlert = false
     @State private var showingInvalidNameAlert = false
     @State private var showingInvalidPortAlert = false
@@ -43,19 +35,23 @@ struct EditServerView: View {
                         .foregroundColor(.gray)
                         .headline()
                         .frame(width: 25, height: 25)
-                    Picker("Server Type"
-                           , selection: $tempServerType) {
-                        Text("Java Edition").tag(ServerType.Java)
-                        Text("Bedrock/MCPE").tag(ServerType.Bedrock)
-                    }.onChange(of: tempServerType, initial: false) { oldValue, newValue in
+                    
+                    Picker("Server Type", selection: $tempServerType) {
+                        Text("Java Edition")
+                            .tag(ServerType.Java)
+                        
+                        Text("Bedrock/MCPE")
+                            .tag(ServerType.Bedrock)
+                    }
+                    .onChange(of: tempServerType, initial: false) { _, newValue in
                         if newValue == .Java {
                             portLabelPromptText = "Port (Optional - Default 25565)"
                         } else if newValue == .Bedrock {
                             portLabelPromptText = "Port (Optional - Default 19132)"
                         }
                     }
-
                 }
+                
                 HStack {
                     Image(systemName: "tag.fill")
                         .foregroundColor(.gray)
@@ -70,6 +66,7 @@ struct EditServerView: View {
                         .foregroundColor(.gray)
                         .headline()
                         .frame(width: 25, height: 25)
+                    
                     TextField("Server Address/IP", text: $tempServerInput, prompt: Text("Server Address/IP")).autocapitalization(.none).keyboardType(.URL).autocorrectionDisabled(true).submitLabel(.done).focused($focusedField, equals: .serverAddress)
                         .onChange(of: tempServerInput, initial: false) { oldValue, newValue  in
                             extractPort(from: newValue)
@@ -84,7 +81,7 @@ struct EditServerView: View {
                 }
             }.headerProminence(.increased)
         }
-            .toolbar {
+        .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
                     isPresented = false
@@ -101,18 +98,18 @@ struct EditServerView: View {
             }
             
         }
-            .onAppear {
-                tempServerInput = server.serverUrl
-                
-                if server.serverPort != 0 {
-                    tempPortInput = server.serverPort
-                }
-                
-                tempNameInput = server.name
-                tempServerType = server.serverType
-                focusedField = .serverName
+        .onAppear {
+            tempServerInput = server.serverUrl
+            
+            if server.serverPort != 0 {
+                tempPortInput = server.serverPort
             }
-            .interactiveDismissDisabled(inputHasChanged())
+            
+            tempNameInput = server.name
+            tempServerType = server.serverType
+            focusedField = .serverName
+        }
+        .interactiveDismissDisabled(inputHasChanged())
         
         .alert("Invalid Server URL/IP Address", isPresented: $showingInvalidURLAlert) {
             Button("OK") {
@@ -135,17 +132,17 @@ struct EditServerView: View {
     }
     //
     private func extractPort(from text: String) {
-            // Check if the text contains a colon
-            if let colonIndex = text.firstIndex(of: ":") {
-                // Extract the port number after the colon
-                let portValue = text[text.index(after: colonIndex)...]
-                let port = String(portValue)
-                // Remove the port from serverIP if necessary
-                let serverIP = String(text[..<colonIndex])
-                tempServerInput = serverIP
-                tempPortInput = Int(port)
-            }
+        // Check if the text contains a colon
+        if let colonIndex = text.firstIndex(of: ":") {
+            // Extract the port number after the colon
+            let portValue = text[text.index(after: colonIndex)...]
+            let port = String(portValue)
+            // Remove the port from serverIP if necessary
+            let serverIP = String(text[..<colonIndex])
+            tempServerInput = serverIP
+            tempPortInput = Int(port)
         }
+    }
     
     
     private func saveDisabled() -> Bool {
@@ -162,7 +159,6 @@ struct EditServerView: View {
     private func isUrlValid(url: String) -> Bool {
         return !url.contains(":") && !url.contains("/")
     }
-    
     
     // THIS IS CALLED WHEN A SERVER IS EDITED OR ADDED
     private func saveItem() {
@@ -184,9 +180,9 @@ struct EditServerView: View {
             return
         }
         
-        
         withAnimation {
             server.serverUrl = tempServerInput
+            
             if let tempPortInput {
                 server.serverPort =  tempPortInput
             } else if tempServerType == .Java {
@@ -200,6 +196,7 @@ struct EditServerView: View {
             server.srvServerUrl = ""
             server.srvServerPort = 0
             modelContext.insert(server)
+            
             do {
                 // Try to save
                 try modelContext.save()
@@ -207,6 +204,7 @@ struct EditServerView: View {
                 // We couldn't save :(
                 print(error.localizedDescription)
             }
+            
             print("added server")
             MCStatusShortcutsProvider.updateAppShortcutParameters()
             parentViewRefreshCallBack()
@@ -215,10 +213,7 @@ struct EditServerView: View {
             isPresented = false
         }
     }
-
 }
-
-
 
 //#Preview {
 //    EditServerView(server: )

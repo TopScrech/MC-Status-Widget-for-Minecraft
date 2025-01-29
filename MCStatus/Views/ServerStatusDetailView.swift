@@ -19,14 +19,17 @@ struct ServerStatusDetailView: View {
     
     private var pillText: String {
         var text = " "
+        
         if let status = serverStatusViewModel.status, serverStatusViewModel.loadingStatus != .Loading {
             text = status.status.rawValue
         }
+        
         return text
     }
     
     private var pillColor: Color {
         var color = Color.standoutPillGrey
+        
         if let status = serverStatusViewModel.status, serverStatusViewModel.loadingStatus != .Loading {
             if status.status == .Online {
                 color = Color.statusBackgroundGreen
@@ -34,22 +37,27 @@ struct ServerStatusDetailView: View {
                 color = Color.red
             }
         }
+        
         return color
     }
     
     private var playersText: String {
         var text = ""
+        
         if let status = serverStatusViewModel.status {
             text = "Players: \(status.onlinePlayerCount)/\(status.maxPlayerCount)"
         }
+        
         return text
     }
     
     private var srvAddressText: String {
         var text = ""
-        if(serverStatusViewModel.hasSRVRecord()) {
+        
+        if serverStatusViewModel.hasSRVRecord() {
             text = "srv: " + serverStatusViewModel.server.srvServerUrl + ":" + String(serverStatusViewModel.server.srvServerPort)
         }
+        
         return text
     }
     
@@ -84,15 +92,15 @@ struct ServerStatusDetailView: View {
                             .background(Color.serverIconBackground)
                             .overlay(RoundedRectangle(cornerRadius: 15)
                                 .stroke(Color(hex: "6e6e6e"), lineWidth: 4))
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .padding([.trailing], 16)
+                            .clipShape(.rect(cornerRadius: 15))
+                            .padding(.trailing, 16)
                             .shadow(color: .black.opacity(0.2), radius: 5, x: 3, y: 3) // Drop shadow
                         
                         
                         VStack(alignment: .leading, spacing: 0) {
                             Text(serverStatusViewModel.server.name)
-                                .font(.title)
-                                .fontWeight(.bold)
+                                .title()
+                                .bold()
                             
                             let serverAddressString = serverStatusViewModel.server.serverUrl + ":" + String(serverStatusViewModel.server.serverPort)
                             Text(serverAddressString)
@@ -112,8 +120,8 @@ struct ServerStatusDetailView: View {
                                 ZStack(alignment: .center) {
                                     Text(pillText)
                                         .frame(minWidth: 45)
-                                        .padding([.trailing, .leading], 14)
-                                        .padding([.bottom, .top], 7)
+                                        .padding(.horizontal, 14)
+                                        .padding(.vertical, 7)
                                         .background(pillColor)
                                         .foregroundColor(.white)
                                         .subheadline()
@@ -126,19 +134,20 @@ struct ServerStatusDetailView: View {
                                 
                                 if self.pingDuration > 0 {
                                     HStack {
-                                        
-                                        Text("\(self.pingDuration)ms")
+                                        Text("\(pingDuration)ms")
                                             .subheadline()
+                                        
                                         Image(systemName: "wifi")
                                             .resizable()
                                             .scaledToFit()
                                             .foregroundColor(pingColor(for: self.pingDuration))
                                             .frame(width: 15, height: 15)
-                                    }.padding([.trailing, .leading], 14)
-                                        .padding([.bottom, .top], 7)
-                                        .background(Color.standoutPillGrey)
-                                        .foregroundColor(.tertiaryTextColor)
-                                        .cornerRadius(16)
+                                    }
+                                    .padding(.horizontal, 14)
+                                    .padding(.vertical, 7)
+                                    .background(Color.standoutPillGrey)
+                                    .foregroundColor(.tertiaryTextColor)
+                                    .cornerRadius(16)
                                     
                                 }
                                 
@@ -181,8 +190,10 @@ struct ServerStatusDetailView: View {
                     
                     
                 }
-            }.padding([.top, .trailing, .leading],10).listRowInsets(EdgeInsets())
-                .listRowBackground(Color.appBackgroundColor)
+            }
+            .padding([.top, .trailing, .leading], 10)
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.appBackgroundColor)
             
             Section {
                 ForEach(serverStatusViewModel.status?.playerSample ?? []) { player in
@@ -203,7 +214,8 @@ struct ServerStatusDetailView: View {
                         }
                         .cornerRadius(3)
                         .frame(width: 30, height: 30)
-                        .padding([.trailing], 16)
+                        .padding(.trailing, 16)
+                        
                         Text(player.name)
                         
                     }.padding(.vertical, 10).listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
@@ -220,54 +232,56 @@ struct ServerStatusDetailView: View {
         .listStyle(.insetGrouped)
         .listSectionSpacing(10)
         .environment(\.defaultMinListHeaderHeight, 15)
-            .navigationBarTitleDisplayMode(.inline)
-            .refreshable {
-                serverStatusViewModel.reloadData(config: ConfigHelper.getServerCheckerConfig())
-                refreshPing()
-            }.toolbar {
+        .navigationBarTitleDisplayMode(.inline)
+        .refreshable {
+            serverStatusViewModel.reloadData(config: ConfigHelper.getServerCheckerConfig())
+            refreshPing()
+        }
+        .toolbar {
 #if targetEnvironment(macCatalyst) // Gross (show refresh button only on mac status bar since they can't pull to refresh)
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        serverStatusViewModel.reloadData(config: ConfigHelper.getServerCheckerConfig())
-                        refreshPing()
-                    } label: {
-                        Label("Refresh Servers", systemImage: "arrow.clockwise")
-                    }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    serverStatusViewModel.reloadData(config: ConfigHelper.getServerCheckerConfig())
+                    refreshPing()
+                } label: {
+                    Label("Refresh Servers", systemImage: "arrow.clockwise")
                 }
+            }
 #endif
-                ToolbarItem(placement: .topBarTrailing) {
-                    HStack {
-                        Button {
-                            showingEditSheet = true
-                        } label: {
-                            Text("Edit")
-                        }
-                        Button(role: .destructive) {
-                            showingDeleteAlert = true
-                        } label: {
-                            Label("Delete Server", systemImage: "trash")
-                        }.foregroundColor(.red)
+            ToolbarItem(placement: .topBarTrailing) {
+                HStack {
+                    Button("Edit") {
+                        showingEditSheet = true
                     }
-                }
-            }
-            .onAppear {
-                refreshPing()
-                startPrefetchingUserImages(viewModel: serverStatusViewModel)
-            }
-            .alert("Delete Server?", isPresented: $showingDeleteAlert) {
-                Button("Delete", role: .destructive) {
-                    deleteServer()
-                }
-                Button("Cancel", role: .cancel) { }
-            }
-            .sheet($showingEditSheet) {
-                NavigationStack {
-                    EditServerView(server: serverStatusViewModel.server, isPresented: $showingEditSheet) {
-                        serverStatusViewModel.reloadData(config: ConfigHelper.getServerCheckerConfig())
-                        parentViewRefreshCallBack()
+                    
+                    Button(role: .destructive) {
+                        showingDeleteAlert = true
+                    } label: {
+                        Label("Delete Server", systemImage: "trash")
                     }
+                    .foregroundColor(.red)
                 }
             }
+        }
+        .onAppear {
+            refreshPing()
+            startPrefetchingUserImages(viewModel: serverStatusViewModel)
+        }
+        .alert("Delete Server?", isPresented: $showingDeleteAlert) {
+            Button("Delete", role: .destructive) {
+                deleteServer()
+            }
+            
+            Button("Cancel", role: .cancel) { }
+        }
+        .sheet($showingEditSheet) {
+            NavigationStack {
+                EditServerView(server: serverStatusViewModel.server, isPresented: $showingEditSheet) {
+                    serverStatusViewModel.reloadData(config: ConfigHelper.getServerCheckerConfig())
+                    parentViewRefreshCallBack()
+                }
+            }
+        }
     }
     
     private func refreshPing() {
@@ -306,4 +320,3 @@ struct ServerStatusDetailView: View {
         prefetcher.startPrefetching(with: imageURLs)
     }
 }
-

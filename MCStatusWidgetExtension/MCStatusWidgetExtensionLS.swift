@@ -14,18 +14,18 @@ import MCStatusDataLayer
 
 struct MinecraftServerStatusLSWidget1: Widget {
     let kind: String = "MinecraftServerStatusLSWidget1"
-
+    
     private let supportedFamilies:[WidgetFamily] = {
         
-        #if targetEnvironment(macCatalyst)
-            return []
-        #elseif os(watchOS)
+#if targetEnvironment(macCatalyst)
+        return []
+#elseif os(watchOS)
         return [.accessoryCircular, .accessoryRectangular, .accessoryInline, .accessoryCorner]
-        #else
-            return [.accessoryCircular, .accessoryRectangular, .accessoryInline]
-        #endif
-          
-       }()
+#else
+        return [.accessoryCircular, .accessoryRectangular, .accessoryInline]
+#endif
+        
+    }()
     
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: ServerSelectNoThemeWidgetIntent.self, provider: LockscreenProvider(widgetType: .ImageAndText)) { entry in
@@ -44,16 +44,16 @@ struct MinecraftServerStatusLSWidget1: Widget {
 
 struct MinecraftServerStatusLSWidget2: Widget {
     let kind: String = "MinecraftServerStatusLSWidget2"
-
+    
     private let supportedFamilies:[WidgetFamily] = {
-        #if targetEnvironment(macCatalyst)
-            return []
-        #elseif os(watchOS)
-            return [.accessoryCircular]
-        #else
-            return [.accessoryCircular, .accessoryInline]
-        #endif
-       }()
+#if targetEnvironment(macCatalyst)
+        return []
+#elseif os(watchOS)
+        return [.accessoryCircular]
+#else
+        return [.accessoryCircular, .accessoryInline]
+#endif
+    }()
     
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: ServerSelectNoThemeWidgetIntent.self, provider: LockscreenProvider(widgetType: .OnlyImage)) { entry in
@@ -82,28 +82,31 @@ struct MinecraftServerStatusLSWidgetEntryView : View {
     @ViewBuilder
     var body: some View {
         switch family {
-    #if !targetEnvironment(macCatalyst)
-
+#if !targetEnvironment(macCatalyst)
+            
         case .accessoryCircular:
             switch widgetType {
-                case .ImageAndText:
-                    CircularAccessoryWidgetView1(entry: entry)
-                case .OnlyImage:
-                    CircularAccessoryWidgetView2(entry: entry)
+            case .ImageAndText:
+                CircularAccessoryWidgetView1(entry: entry)
+                
+            case .OnlyImage:
+                CircularAccessoryWidgetView2(entry: entry)
             }
         case .accessoryRectangular:
             RectangularAccessoryWidgetView(entry: entry)
+            
         case .accessoryInline:
             switch widgetType {
-                case .ImageAndText:
+            case .ImageAndText:
                 InlineAccessoryWidgetView(entry: entry)
-                case .OnlyImage:
+                
+            case .OnlyImage:
                 InlineAccessoryWidgetView2(entry: entry)
             }
             
         case .accessoryCorner:
             CornerAccessoryWidgetView1(entry: entry)
-    #endif
+#endif
         @unknown default:
             Text("Not implemented")
         }

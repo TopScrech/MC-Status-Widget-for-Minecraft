@@ -37,7 +37,7 @@ struct InlineAccessoryWidgetView2 : View {
                 } else {
                     Text(entry.viewModel.progressString)
                 }
-            }.buttonStyle(PlainButtonStyle())
+            }.buttonStyle(.plain)
             if let statusIcon = entry.viewModel.statusIcon {
                 Image(systemName: statusIcon)
                     .font(.system(size: 18))

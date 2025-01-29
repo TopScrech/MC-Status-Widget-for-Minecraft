@@ -45,7 +45,7 @@ struct InlineAccessoryWidgetView : View {
                 } else {
                     Text(entry.viewModel.progressString)
                 }
-            }.buttonStyle(PlainButtonStyle())
+            }.buttonStyle(.plain)
         }
 #endif
     }

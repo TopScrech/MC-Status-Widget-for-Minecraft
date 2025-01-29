@@ -90,7 +90,7 @@ struct WatchContentView: View {
                 }
             }
         }
-        .onChange(of: scenePhase, initial: true) { old,newPhase in
+        .onChange(of: scenePhase, initial: true) { _, newPhase in
             // this is some code to investigate an apple watch bug
             if newPhase == .active {
                 print("Active")
