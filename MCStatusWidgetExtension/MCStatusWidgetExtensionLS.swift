@@ -100,5 +100,5 @@ struct MinecraftServerStatusLSWidgetEntryView : View {
 struct ServerStatusLSSnapshotEntry: TimelineEntry {
     let date: Date
     let configuration: ServerSelectNoThemeWidgetIntent
-    let vm: WidgetEntryViewModel
+    let vm: WidgetEntryVM
 }

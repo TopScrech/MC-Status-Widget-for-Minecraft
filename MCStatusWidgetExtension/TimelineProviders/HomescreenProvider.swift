@@ -6,19 +6,19 @@ import SwiftData
 struct HomescreenProvider: AppIntentTimelineProvider {
     // this view is for when the widget has been added the the homescreen, but the user has not selected a server/theme ? or not.
     func placeholder(in context: Context) -> ServerStatusHSSnapshotEntry {
-        var vm = WidgetEntryViewModel()
+        var vm = WidgetEntryVM()
         vm.setForUnconfiguredView()
         return ServerStatusHSSnapshotEntry(date: Date(), configuration: ServerSelectWidgetIntent(), vm: vm)
     }
     
     // is context.isPreview is true, this is the view to show when someone clicked add widget. Just show preview with placeholder data. if it is false, yo ushould actually load the current state of the view by getting the status
     func snapshot(for configuration: ServerSelectWidgetIntent, in context: Context) async -> ServerStatusHSSnapshotEntry {
-        var vm = WidgetEntryViewModel()
+        var vm = WidgetEntryVM()
         
         let container = SwiftDataHelper.getModelContainter()
         if !context.isPreview, let (server, serverStatus, widgetTheme) = await loadTimelineData(container: container, configuration: configuration) {
             let serverIcon = ImageHelper.convertFavIconString(favIcon: serverStatus.favIcon) ?? UIImage(named: "DefaultIcon")!
-            vm = WidgetEntryViewModel(serverName: server.name, status: serverStatus, lastUpdated: "now", serverIcon: serverIcon, theme: widgetTheme)
+            vm = WidgetEntryVM(serverName: server.name, status: serverStatus, lastUpdated: "now", serverIcon: serverIcon, theme: widgetTheme)
         }
         return ServerStatusHSSnapshotEntry(date: Date(), configuration: configuration, vm: vm)
     }
@@ -56,7 +56,7 @@ struct HomescreenProvider: AppIntentTimelineProvider {
         let container = SwiftDataHelper.getModelContainter()
         guard let (server, serverStatus, widgetTheme) = await loadTimelineData(container: container, configuration: configuration) else {
             // nothing configured yet?
-            var vm = WidgetEntryViewModel()
+            var vm = WidgetEntryVM()
             vm.setForUnconfiguredView()
             let serverCount = await SwiftDataHelper.getSavedServers(container: container).count
             if serverCount == 0 {
@@ -80,7 +80,7 @@ struct HomescreenProvider: AppIntentTimelineProvider {
                 timeStr = "\(minOffset)m ago"
             }
             
-            let vm = WidgetEntryViewModel(serverName: server.name, status: serverStatus, lastUpdated: timeStr, serverIcon: serverIcon, theme: widgetTheme)
+            let vm = WidgetEntryVM(serverName: server.name, status: serverStatus, lastUpdated: timeStr, serverIcon: serverIcon, theme: widgetTheme)
             let entryDate = Calendar.current.date(byAdding: .minute, value: minOffset, to: currentDate)!
             let entry = ServerStatusHSSnapshotEntry(date: entryDate, configuration: configuration, vm: vm)
             entries.append(entry)
@@ -88,7 +88,7 @@ struct HomescreenProvider: AppIntentTimelineProvider {
         
         for minOffset in stride(from: 15, through: 55, by: 5) {
             let timeStr = "\(minOffset)m ago"
-            let vm = WidgetEntryViewModel(serverName: server.name, status: serverStatus, lastUpdated: timeStr, serverIcon: serverIcon, theme: widgetTheme)
+            let vm = WidgetEntryVM(serverName: server.name, status: serverStatus, lastUpdated: timeStr, serverIcon: serverIcon, theme: widgetTheme)
             let entryDate = Calendar.current.date(byAdding: .minute, value: minOffset, to: currentDate)!
             let entry = ServerStatusHSSnapshotEntry(date: entryDate, configuration: configuration, vm: vm)
             entries.append(entry)
@@ -97,7 +97,7 @@ struct HomescreenProvider: AppIntentTimelineProvider {
         for hourOffset in 1 ..< 11 { //360
             let timeStr = "\(hourOffset)hr ago"
             
-            let vm = WidgetEntryViewModel(serverName: server.name, status: serverStatus, lastUpdated: timeStr, serverIcon: serverIcon, theme: widgetTheme)
+            let vm = WidgetEntryVM(serverName: server.name, status: serverStatus, lastUpdated: timeStr, serverIcon: serverIcon, theme: widgetTheme)
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
             let entry = ServerStatusHSSnapshotEntry(date: entryDate, configuration: configuration, vm: vm)
             entries.append(entry)

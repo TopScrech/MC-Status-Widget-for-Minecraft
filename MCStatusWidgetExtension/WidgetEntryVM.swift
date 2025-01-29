@@ -5,7 +5,7 @@ enum WidgetViewType {
     case Default, Preview, Unconfigured
 }
 
-extension WidgetEntryViewModel {
+extension WidgetEntryVM {
     init(serverName:String, status: ServerStatus, lastUpdated: String, serverIcon: UIImage, theme: Theme) {
         self.lastUpdated = lastUpdated
         
@@ -113,7 +113,7 @@ extension WidgetEntryViewModel {
 }
 
 
-public struct WidgetEntryViewModel {
+public struct WidgetEntryVM {
     var lastUpdated: String
     var icon: UIImage
     var statusIcon: String?

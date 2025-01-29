@@ -1,12 +1,10 @@
 import SwiftUI
-import Intents
 import WidgetKit
 
 struct InlineAccessoryWidgetView : View {
     var entry: LockscreenProvider.Entry
     
     var body: some View {
-        
 #if !targetEnvironment(macCatalyst)
         HStack(spacing: 8) {
             if let statusIcon = entry.vm.statusIcon {
@@ -34,11 +32,10 @@ struct InlineAccessoryWidgetView : View {
     }
 }
 
-
 #if !targetEnvironment(macCatalyst)
 struct MinecraftServerStatusHSWidget_InlinePreview: PreviewProvider {
     static var previews: some View {
-        MinecraftServerStatusLSWidgetEntryView(entry: ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), vm: WidgetEntryViewModel()))
+        MinecraftServerStatusLSWidgetEntryView(entry: ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), vm: WidgetEntryVM()))
             .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
     }
 }

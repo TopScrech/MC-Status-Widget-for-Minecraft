@@ -87,7 +87,7 @@ struct CircularAccessoryWidgetView1 : View {
 #if !targetEnvironment(macCatalyst)
 struct MinecraftServerStatusHSWidget_CircularPreview: PreviewProvider {
     static var previews: some View {
-        MinecraftServerStatusLSWidgetEntryView(entry: ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), vm: WidgetEntryViewModel()))
+        MinecraftServerStatusLSWidgetEntryView(entry: ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), vm: WidgetEntryVM()))
             .previewContext(WidgetPreviewContext(family: .accessoryCircular))
     }
 }

@@ -33,20 +33,20 @@ struct LockscreenProvider: AppIntentTimelineProvider {
     
     // this view is for when the widget has been added the the homescreen, but the user has not selected a server/theme ? or not.
     func placeholder(in context: Context) -> ServerStatusLSSnapshotEntry {
-        var vm = WidgetEntryViewModel()
+        var vm = WidgetEntryVM()
         vm.setForUnconfiguredView()
         return ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), vm: vm)
     }
     
     // is context.isPreview is true, this is the view to show when someone clicked add widget. Just show preview with placeholder data. if it is false, yo ushould actually load the current state of the view by getting the status
     func snapshot(for configuration: ServerSelectNoThemeWidgetIntent, in context: Context) async -> ServerStatusLSSnapshotEntry {
-        var vm = WidgetEntryViewModel()
+        var vm = WidgetEntryVM()
         
         let container = SwiftDataHelper.getModelContainter()
         
         if !context.isPreview, let (server, serverStatus) = await loadTimelineData(container: container, configuration: configuration) {
             let serverIcon = ImageHelper.convertFavIconString(favIcon: serverStatus.favIcon) ?? UIImage(named: "DefaultIcon")!
-            vm = WidgetEntryViewModel(serverName: server.name, status: serverStatus, lastUpdated: "now", serverIcon: serverIcon, theme: .auto)
+            vm = WidgetEntryVM(serverName: server.name, status: serverStatus, lastUpdated: "now", serverIcon: serverIcon, theme: .auto)
         }
         
         if context.isPreview {
@@ -85,7 +85,7 @@ struct LockscreenProvider: AppIntentTimelineProvider {
         let container = SwiftDataHelper.getModelContainter()
         guard let (server, serverStatus) = await loadTimelineData(container: container, configuration: configuration) else {
             // nothing configured yet?
-            var vm = WidgetEntryViewModel()
+            var vm = WidgetEntryVM()
             vm.setForUnconfiguredView()
             let serverCount = await SwiftDataHelper.getSavedServers(container: container).count
             if serverCount == 0 {
@@ -99,7 +99,7 @@ struct LockscreenProvider: AppIntentTimelineProvider {
         }
         let serverIcon = ImageHelper.convertFavIconString(favIcon: serverStatus.favIcon) ?? UIImage(named: "DefaultIcon")!
         
-        let vm = WidgetEntryViewModel(serverName: server.name, status: serverStatus, lastUpdated: "", serverIcon: serverIcon, theme: .auto)
+        let vm = WidgetEntryVM(serverName: server.name, status: serverStatus, lastUpdated: "", serverIcon: serverIcon, theme: .auto)
         let entry = ServerStatusLSSnapshotEntry(date: currentDate, configuration: configuration, vm: vm)
         entries.append(entry)
         

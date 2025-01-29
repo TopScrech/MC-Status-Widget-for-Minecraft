@@ -53,5 +53,5 @@ struct MinecraftServerStatusHSWidgetEntryView : View {
 struct ServerStatusHSSnapshotEntry: TimelineEntry {
     let date: Date
     let configuration: ServerSelectWidgetIntent
-    let vm: WidgetEntryViewModel
+    let vm: WidgetEntryVM
 }

@@ -266,7 +266,7 @@
 				Views/InlineAccessoryWidgetView.swift,
 				Views/InlineAccessoryWidgetView2.swift,
 				Views/RectangularAccessoryWidgetView.swift,
-				WidgetEntryViewModel.swift,
+				WidgetEntryVM.swift,
 			);
 			target = F13095242CBC997200C4C7BA /* MCStatusWatchWidgetExtension */;
 		};

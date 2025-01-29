@@ -40,7 +40,7 @@ private struct InnerMediumWidget : View {
 #warning("Migrate to the Preview macro")
 struct MinecraftServerStatusHSWidget_MediumPreview: PreviewProvider {
     static var previews: some View {
-        MinecraftServerStatusHSWidgetEntryView(entry: ServerStatusHSSnapshotEntry(date: Date(), configuration: ServerSelectWidgetIntent(), vm: WidgetEntryViewModel()))
+        MinecraftServerStatusHSWidgetEntryView(entry: ServerStatusHSSnapshotEntry(date: Date(), configuration: ServerSelectWidgetIntent(), vm: WidgetEntryVM()))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }

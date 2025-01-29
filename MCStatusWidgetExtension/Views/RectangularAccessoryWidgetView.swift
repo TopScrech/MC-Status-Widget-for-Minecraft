@@ -65,7 +65,7 @@ struct RectangularAccessoryWidgetView : View {
 #warning("Migrate to the Preview macro")
 struct MinecraftServerStatusHSWidget_RectanglePreview: PreviewProvider {
     static var previews: some View {
-        MinecraftServerStatusLSWidgetEntryView(entry: ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), vm: WidgetEntryViewModel()))
+        MinecraftServerStatusLSWidgetEntryView(entry: ServerStatusLSSnapshotEntry(date: Date(), configuration: ServerSelectNoThemeWidgetIntent(), vm: WidgetEntryVM()))
             .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
     }
 }
