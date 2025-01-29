@@ -31,7 +31,6 @@
 		F13E5FFD2A4BD614005BE9B2 /* MCStatusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E5FFC2A4BD614005BE9B2 /* MCStatusApp.swift */; };
 		F13E60012A4BD614005BE9B2 /* MainAppContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E60002A4BD614005BE9B2 /* MainAppContentView.swift */; };
 		F13E60032A4BD615005BE9B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F13E60022A4BD615005BE9B2 /* Assets.xcassets */; };
-		F13E60072A4BD615005BE9B2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F13E60062A4BD615005BE9B2 /* Preview Assets.xcassets */; };
 		F1406BAC2AA391B800815BE8 /* MCStatusAppIntentsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1406BAB2AA391B800815BE8 /* MCStatusAppIntentsExtension.swift */; };
 		F1406BBF2AA3933400815BE8 /* IntentErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1406BA32AA2DD2C00815BE8 /* IntentErrors.swift */; };
 		F1406BC22AA3936E00815BE8 /* UserDefaultHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BF5D9E2A80261D00966D56 /* UserDefaultHelper.swift */; };
@@ -103,6 +102,7 @@
 		F1EF77612CB8B89A00EFFB20 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EF775D2CB8B88B00EFFB20 /* ImageHelper.swift */; };
 		F1EF77622CB8C62D00EFFB20 /* CustomProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E671752CA73A86002BDFC0 /* CustomProgressView.swift */; };
 		F1EF77632CB958B700EFFB20 /* CustomExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1CFCD502CABB55B001A9E69 /* CustomExtentions.swift */; };
+		F386EC632D4AD64800D126D7 /* ScrechKit in Frameworks */ = {isa = PBXBuildFile; productRef = F386EC622D4AD64800D126D7 /* ScrechKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -205,7 +205,6 @@
 		F13E60002A4BD614005BE9B2 /* MainAppContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppContentView.swift; sourceTree = "<group>"; };
 		F13E60022A4BD615005BE9B2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F13E60042A4BD615005BE9B2 /* MCStatus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MCStatus.entitlements; sourceTree = "<group>"; };
-		F13E60062A4BD615005BE9B2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F13E60082A4BD615005BE9B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F1406BA32AA2DD2C00815BE8 /* IntentErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentErrors.swift; sourceTree = "<group>"; };
 		F1406BA92AA391B800815BE8 /* MCStatusAppIntentsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = MCStatusAppIntentsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -364,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1612CCA2CACC37300E602DC /* NukeUI in Frameworks */,
+				F386EC632D4AD64800D126D7 /* ScrechKit in Frameworks */,
 				F1C010412AAAB6DE0017B9A9 /* MCStatusDataLayer in Frameworks */,
 				F1612CC82CACC37300E602DC /* Nuke in Frameworks */,
 			);
@@ -458,7 +458,6 @@
 		F13E5FFB2A4BD614005BE9B2 /* MCStatus */ = {
 			isa = PBXGroup;
 			children = (
-				F13E60062A4BD615005BE9B2 /* Preview Assets.xcassets */,
 				F13E60022A4BD615005BE9B2 /* Assets.xcassets */,
 				F13E5FFC2A4BD614005BE9B2 /* MCStatusApp.swift */,
 				F1A43C802A84726F0081A24C /* Views */,
@@ -659,6 +658,7 @@
 				F1C010402AAAB6DE0017B9A9 /* MCStatusDataLayer */,
 				F1612CC72CACC37300E602DC /* Nuke */,
 				F1612CC92CACC37300E602DC /* NukeUI */,
+				F386EC622D4AD64800D126D7 /* ScrechKit */,
 			);
 			productName = MinecraftServerStatus;
 			productReference = F13E5FF92A4BD614005BE9B2 /* MC Status.app */;
@@ -751,6 +751,7 @@
 			mainGroup = F13E5FF02A4BD614005BE9B2;
 			packageReferences = (
 				F1612CC62CACC37300E602DC /* XCRemoteSwiftPackageReference "Nuke" */,
+				F386EC612D4AD64800D126D7 /* XCRemoteSwiftPackageReference "ScrechKit" */,
 			);
 			productRefGroup = F13E5FFA2A4BD614005BE9B2 /* Products */;
 			projectDirPath = "";
@@ -786,7 +787,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F13E60072A4BD615005BE9B2 /* Preview Assets.xcassets in Resources */,
 				F1DCB7B52CC4DE940005FFE0 /* MCStatusStoreKit Local.storekit in Resources */,
 				F13E60032A4BD615005BE9B2 /* Assets.xcassets in Resources */,
 				F17AE0FA2CC05CA200DC7A80 /* MCStatusStoreKit Synced.storekit in Resources */,
@@ -960,7 +960,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"MCStatusWatchApp/Preview Content\"";
-				DEVELOPMENT_TEAM = FDYR7V7AH4;
+				DEVELOPMENT_TEAM = 8FQUA2F388;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MCStatusWatchApp/MCStatusWatchApp-Info.plist";
@@ -993,7 +993,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"MCStatusWatchApp/Preview Content\"";
-				DEVELOPMENT_TEAM = FDYR7V7AH4;
+				DEVELOPMENT_TEAM = 8FQUA2F388;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MCStatusWatchApp/MCStatusWatchApp-Info.plist";
@@ -1026,7 +1026,7 @@
 				CODE_SIGN_ENTITLEMENTS = MCStatusWatchWidget/MCStatusWatchWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
-				DEVELOPMENT_TEAM = FDYR7V7AH4;
+				DEVELOPMENT_TEAM = 8FQUA2F388;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCStatusWatchWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MCStatusWatchWidget;
@@ -1057,7 +1057,7 @@
 				CODE_SIGN_ENTITLEMENTS = MCStatusWatchWidget/MCStatusWatchWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
-				DEVELOPMENT_TEAM = FDYR7V7AH4;
+				DEVELOPMENT_TEAM = 8FQUA2F388;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCStatusWatchWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MCStatusWatchWidget;
@@ -1205,7 +1205,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"MCStatus/Other\"";
-				DEVELOPMENT_TEAM = FDYR7V7AH4;
+				DEVELOPMENT_TEAM = 8FQUA2F388;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1252,7 +1252,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"MCStatus/Other\"";
-				DEVELOPMENT_TEAM = FDYR7V7AH4;
+				DEVELOPMENT_TEAM = 8FQUA2F388;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1295,7 +1295,7 @@
 				CODE_SIGN_ENTITLEMENTS = MCStatusAppIntentsExtension/MCStatusAppIntentsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
-				DEVELOPMENT_TEAM = FDYR7V7AH4;
+				DEVELOPMENT_TEAM = 8FQUA2F388;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCStatusAppIntentsExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MCStatusAppIntentsExtension;
@@ -1326,7 +1326,7 @@
 				CODE_SIGN_ENTITLEMENTS = MCStatusAppIntentsExtension/MCStatusAppIntentsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
-				DEVELOPMENT_TEAM = FDYR7V7AH4;
+				DEVELOPMENT_TEAM = 8FQUA2F388;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCStatusAppIntentsExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MCStatusAppIntentsExtension;
@@ -1360,7 +1360,7 @@
 				CODE_SIGN_ENTITLEMENTS = MCStatusWidgetExtension/MCStatusWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
-				DEVELOPMENT_TEAM = FDYR7V7AH4;
+				DEVELOPMENT_TEAM = 8FQUA2F388;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MCStatusWidgetExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MCStatusWidgetExtension;
@@ -1483,6 +1483,14 @@
 				minimumVersion = 12.8.0;
 			};
 		};
+		F386EC612D4AD64800D126D7 /* XCRemoteSwiftPackageReference "ScrechKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TopScrech/ScrechKit";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1525,6 +1533,11 @@
 		F1EF77372CB818AC00EFFB20 /* MCStatusDataLayer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MCStatusDataLayer;
+		};
+		F386EC622D4AD64800D126D7 /* ScrechKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F386EC612D4AD64800D126D7 /* XCRemoteSwiftPackageReference "ScrechKit" */;
+			productName = ScrechKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
