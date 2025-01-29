@@ -34,8 +34,9 @@ struct ThemeIntentTypeAppEntity: AppEntity {
     
     var id: String // if your identifier is not a String, conform the entity to EntityIdentifierConvertible.
     var displayString: String
+    
     var displayRepresentation: DisplayRepresentation {
-        DisplayRepresentation(title: "\(displayString)")
+        .init(title: "\(displayString)")
     }
     
     init(id: String, displayString: String) {

@@ -17,7 +17,7 @@ struct SettingsRootView: View {
     
     var body: some View {
         Form {
-            Section() {
+            Section {
                 //GeneralSettingsView
                 NavigationLink(value: SettingsPageDestinations.GeneralSettings) {
                     Label("General Settings", systemImage: "gear")
@@ -45,32 +45,40 @@ struct SettingsRootView: View {
                 
             }
             
-            Section(footer: Text("See the code that makes this app work, as well as file bugs and feature requests.")) {
+            Section {
                 // Leave a Review
                 Button(action: openGithub) {
                     Label("View the Source Code on GitHub", systemImage: "curlybraces")
                 }
+            } footer: {
+                Text("See the code that makes this app work, as well as file bugs and feature requests.")
             }
             
-            Section(footer: Text("Leave a review to help others discover the app and support its development.")) {
+            Section {
                 // Leave a Review
                 Button(action: leaveAppReview) {
                     Label("Leave an App Review", systemImage: "star")
                 }
+            } footer: {
+                Text("Leave a review to help others discover the app and support its development.")
             }
             
-            Section(footer: Text("Help support the development of free, adless, open source apps.")) {
+            Section {
                 // Tip Developer
                 Button(action: tipDeveloper) {
                     Label("Leave Developer a Tip", systemImage: "giftcard")
                 }
+            } footer: {
+                Text("Help support the development of free, adless, open source apps.")
             }
             
-            Section(footer: Text("Join the beta program to access experimental features before they’re released.")) {
+            Section {
                 // Join TestFlight
                 Button(action: joinTestFlight) {
                     Label("Join TestFlight", systemImage: "airplane")
                 }
+            } footer: {
+                Text("Join the beta program to access experimental features before they’re released.")
             }
         }
         .sheet($showingTipSheet) {
@@ -152,12 +160,12 @@ struct GeneralSettingsView: View {
     @AppStorage(UserDefaultHelper.Key.sortUsersByName.rawValue) var toggle3 = true
     @AppStorage(UserDefaultHelper.Key.openToSpecificServer.rawValue) var toggle4 = true
     
-    
     var body: some View {
         Form {
             Toggle(isOn: $toggle1) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Enable iCloud Syncing")
+                    
                     Text("Sync your server list across all devices.")
                         .footnote()
                         .foregroundColor(.gray)
@@ -168,6 +176,7 @@ struct GeneralSettingsView: View {
             Toggle(isOn: $toggle2) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Show users on server list")
+                    
                     Text("Show users in each row under the progress bar on the main server list")
                         .footnote()
                         .foregroundColor(.gray)
@@ -178,6 +187,7 @@ struct GeneralSettingsView: View {
             Toggle(isOn: $toggle3) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Sort users alphabetically")
+                    
                     Text("Show users sorted alphabetically instead of randomly")
                         .footnote()
                         .foregroundColor(.gray)
@@ -187,6 +197,7 @@ struct GeneralSettingsView: View {
             Toggle(isOn: $toggle4) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Widget opens directly to server")
+                    
                     Text("Tapping the widget will open the app directly to that server. Otherwise it will open the server list.")
                         .footnote()
                         .foregroundColor(.gray)

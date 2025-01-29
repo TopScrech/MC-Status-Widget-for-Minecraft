@@ -107,6 +107,32 @@
 		F386EC672D4AD74A00D126D7 /* ScrechKit in Frameworks */ = {isa = PBXBuildFile; productRef = F386EC662D4AD74A00D126D7 /* ScrechKit */; };
 		F386EC692D4AD74E00D126D7 /* ScrechKit in Frameworks */ = {isa = PBXBuildFile; productRef = F386EC682D4AD74E00D126D7 /* ScrechKit */; };
 		F386EC6B2D4AD75D00D126D7 /* ScrechKit in Frameworks */ = {isa = PBXBuildFile; productRef = F386EC6A2D4AD75D00D126D7 /* ScrechKit */; };
+		F386EC712D4AEFB300D126D7 /* MCStatusWatchWidgetExtensionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC6F2D4AEFB300D126D7 /* MCStatusWatchWidgetExtensionBundle.swift */; };
+		F386EC722D4AEFB300D126D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F386EC6C2D4AEFB300D126D7 /* Assets.xcassets */; };
+		F386EC882D4AEFB700D126D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F386EC802D4AEFB700D126D7 /* Assets.xcassets */; };
+		F386EC8A2D4AEFB700D126D7 /* HomescreenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC742D4AEFB700D126D7 /* HomescreenProvider.swift */; };
+		F386EC8B2D4AEFB700D126D7 /* LockscreenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC752D4AEFB700D126D7 /* LockscreenProvider.swift */; };
+		F386EC8C2D4AEFB700D126D7 /* CircularAccessoryWidgetView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC772D4AEFB700D126D7 /* CircularAccessoryWidgetView1.swift */; };
+		F386EC8D2D4AEFB700D126D7 /* CircularAccessoryWidgetView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC782D4AEFB700D126D7 /* CircularAccessoryWidgetView2.swift */; };
+		F386EC8E2D4AEFB700D126D7 /* CornerAccessoryWidgetView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC792D4AEFB700D126D7 /* CornerAccessoryWidgetView1.swift */; };
+		F386EC8F2D4AEFB700D126D7 /* InlineAccessoryWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC7A2D4AEFB700D126D7 /* InlineAccessoryWidgetView.swift */; };
+		F386EC902D4AEFB700D126D7 /* InlineAccessoryWidgetView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC7B2D4AEFB700D126D7 /* InlineAccessoryWidgetView2.swift */; };
+		F386EC912D4AEFB700D126D7 /* MediumWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC7C2D4AEFB700D126D7 /* MediumWidgetView.swift */; };
+		F386EC922D4AEFB700D126D7 /* RectangularAccessoryWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC7D2D4AEFB700D126D7 /* RectangularAccessoryWidgetView.swift */; };
+		F386EC932D4AEFB700D126D7 /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC7E2D4AEFB700D126D7 /* SmallWidgetView.swift */; };
+		F386EC942D4AEFB700D126D7 /* MCStatusWidgetExtensionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC832D4AEFB700D126D7 /* MCStatusWidgetExtensionBundle.swift */; };
+		F386EC952D4AEFB700D126D7 /* MCStatusWidgetExtensionHS.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC842D4AEFB700D126D7 /* MCStatusWidgetExtensionHS.swift */; };
+		F386EC962D4AEFB700D126D7 /* MCStatusWidgetExtensionLS.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC852D4AEFB700D126D7 /* MCStatusWidgetExtensionLS.swift */; };
+		F386EC972D4AEFB700D126D7 /* WidgetEntryVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC862D4AEFB700D126D7 /* WidgetEntryVM.swift */; };
+		F386EC982D4AEFB700D126D7 /* MCStatusWidgetExtensionLS.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC852D4AEFB700D126D7 /* MCStatusWidgetExtensionLS.swift */; };
+		F386EC992D4AEFB700D126D7 /* WidgetEntryVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC862D4AEFB700D126D7 /* WidgetEntryVM.swift */; };
+		F386EC9A2D4AEFB700D126D7 /* CircularAccessoryWidgetView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC782D4AEFB700D126D7 /* CircularAccessoryWidgetView2.swift */; };
+		F386EC9B2D4AEFB700D126D7 /* CircularAccessoryWidgetView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC772D4AEFB700D126D7 /* CircularAccessoryWidgetView1.swift */; };
+		F386EC9C2D4AEFB700D126D7 /* LockscreenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC752D4AEFB700D126D7 /* LockscreenProvider.swift */; };
+		F386EC9D2D4AEFB700D126D7 /* InlineAccessoryWidgetView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC7B2D4AEFB700D126D7 /* InlineAccessoryWidgetView2.swift */; };
+		F386EC9E2D4AEFB700D126D7 /* RectangularAccessoryWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC7D2D4AEFB700D126D7 /* RectangularAccessoryWidgetView.swift */; };
+		F386EC9F2D4AEFB700D126D7 /* InlineAccessoryWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC7A2D4AEFB700D126D7 /* InlineAccessoryWidgetView.swift */; };
+		F386ECA02D4AEFB700D126D7 /* CornerAccessoryWidgetView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = F386EC792D4AEFB700D126D7 /* CornerAccessoryWidgetView1.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -245,31 +271,30 @@
 		F1EF76ED2CB7873F00EFFB20 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		F1EF76EF2CB7873F00EFFB20 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		F1EF775D2CB8B88B00EFFB20 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
+		F386EC6C2D4AEFB300D126D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F386EC6D2D4AEFB300D126D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F386EC6E2D4AEFB300D126D7 /* MCStatusWatchWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MCStatusWatchWidget.entitlements; sourceTree = "<group>"; };
+		F386EC6F2D4AEFB300D126D7 /* MCStatusWatchWidgetExtensionBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCStatusWatchWidgetExtensionBundle.swift; sourceTree = "<group>"; };
+		F386EC742D4AEFB700D126D7 /* HomescreenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomescreenProvider.swift; sourceTree = "<group>"; };
+		F386EC752D4AEFB700D126D7 /* LockscreenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockscreenProvider.swift; sourceTree = "<group>"; };
+		F386EC772D4AEFB700D126D7 /* CircularAccessoryWidgetView1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularAccessoryWidgetView1.swift; sourceTree = "<group>"; };
+		F386EC782D4AEFB700D126D7 /* CircularAccessoryWidgetView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularAccessoryWidgetView2.swift; sourceTree = "<group>"; };
+		F386EC792D4AEFB700D126D7 /* CornerAccessoryWidgetView1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerAccessoryWidgetView1.swift; sourceTree = "<group>"; };
+		F386EC7A2D4AEFB700D126D7 /* InlineAccessoryWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineAccessoryWidgetView.swift; sourceTree = "<group>"; };
+		F386EC7B2D4AEFB700D126D7 /* InlineAccessoryWidgetView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineAccessoryWidgetView2.swift; sourceTree = "<group>"; };
+		F386EC7C2D4AEFB700D126D7 /* MediumWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetView.swift; sourceTree = "<group>"; };
+		F386EC7D2D4AEFB700D126D7 /* RectangularAccessoryWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangularAccessoryWidgetView.swift; sourceTree = "<group>"; };
+		F386EC7E2D4AEFB700D126D7 /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
+		F386EC802D4AEFB700D126D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F386EC812D4AEFB700D126D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F386EC822D4AEFB700D126D7 /* MCStatusWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MCStatusWidgetExtension.entitlements; sourceTree = "<group>"; };
+		F386EC832D4AEFB700D126D7 /* MCStatusWidgetExtensionBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCStatusWidgetExtensionBundle.swift; sourceTree = "<group>"; };
+		F386EC842D4AEFB700D126D7 /* MCStatusWidgetExtensionHS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCStatusWidgetExtensionHS.swift; sourceTree = "<group>"; };
+		F386EC852D4AEFB700D126D7 /* MCStatusWidgetExtensionLS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCStatusWidgetExtensionLS.swift; sourceTree = "<group>"; };
+		F386EC862D4AEFB700D126D7 /* WidgetEntryVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetEntryVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		F13095342CBC997300C4C7BA /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = F13095242CBC997200C4C7BA /* MCStatusWatchWidgetExtension */;
-		};
-		F13095382CBC99C500C4C7BA /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				MCStatusWidgetExtensionLS.swift,
-				TimelineProviders/LockscreenProvider.swift,
-				Views/CircularAccessoryWidgetView1.swift,
-				Views/CircularAccessoryWidgetView2.swift,
-				Views/CornerAccessoryWidgetView1.swift,
-				Views/InlineAccessoryWidgetView.swift,
-				Views/InlineAccessoryWidgetView2.swift,
-				Views/RectangularAccessoryWidgetView.swift,
-				WidgetEntryVM.swift,
-			);
-			target = F13095242CBC997200C4C7BA /* MCStatusWatchWidgetExtension */;
-		};
 		F130953C2CBC99FB00C4C7BA /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -286,13 +311,6 @@
 				ThemeIntentTypeAppEntity.swift,
 			);
 			target = F13095242CBC997200C4C7BA /* MCStatusWatchWidgetExtension */;
-		};
-		F1EF77012CB7874100EFFB20 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = F1EF76EB2CB7873F00EFFB20 /* MCStatusWidgetExtension */;
 		};
 		F1EF77502CB858CD00EFFB20 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -333,8 +351,6 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F12E264D2CADA38C00986787 /* Fonts */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Fonts; sourceTree = "<group>"; };
-		F13095282CBC997200C4C7BA /* MCStatusWatchWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (F13095342CBC997300C4C7BA /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = MCStatusWatchWidget; sourceTree = "<group>"; };
-		F1EF76F12CB7873F00EFFB20 /* MCStatusWidgetExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (F1EF77012CB7874100EFFB20 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, F13095382CBC99C500C4C7BA /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = MCStatusWidgetExtension; sourceTree = "<group>"; };
 		F1EF774A2CB858C300EFFB20 /* Widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (F1EF77502CB858CD00EFFB20 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, F130953F2CBC9A2B00C4C7BA /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Widget; sourceTree = "<group>"; };
 		F1EF77552CB86C8500EFFB20 /* Widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (F1EF77562CB86C8800EFFB20 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, F1EF77572CB86C8800EFFB20 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, F1EF77582CB86C8800EFFB20 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, F130953C2CBC99FB00C4C7BA /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Widget; sourceTree = "<group>"; };
 		F1EF77592CB86C9000EFFB20 /* Shortcuts */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shortcuts; sourceTree = "<group>"; };
@@ -444,8 +460,8 @@
 				F11F634C2A81E50E00D47187 /* MCStatusWatchApp */,
 				F1322FE32AAAB3FC005EAF56 /* MCStatusDataLayer */,
 				F1406BAA2AA391B800815BE8 /* MCStatusAppIntentsExtension */,
-				F1EF76F12CB7873F00EFFB20 /* MCStatusWidgetExtension */,
-				F13095282CBC997200C4C7BA /* MCStatusWatchWidget */,
+				F386EC872D4AEFB700D126D7 /* MCStatusWidgetExtension */,
+				F386EC702D4AEFB300D126D7 /* MCStatusWatchWidget */,
 				F13E5FFA2A4BD614005BE9B2 /* Products */,
 				F10C421B2AAE40BC000107D6 /* Frameworks */,
 			);
@@ -581,6 +597,57 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		F386EC702D4AEFB300D126D7 /* MCStatusWatchWidget */ = {
+			isa = PBXGroup;
+			children = (
+				F386EC6C2D4AEFB300D126D7 /* Assets.xcassets */,
+				F386EC6D2D4AEFB300D126D7 /* Info.plist */,
+				F386EC6E2D4AEFB300D126D7 /* MCStatusWatchWidget.entitlements */,
+				F386EC6F2D4AEFB300D126D7 /* MCStatusWatchWidgetExtensionBundle.swift */,
+			);
+			path = MCStatusWatchWidget;
+			sourceTree = "<group>";
+		};
+		F386EC762D4AEFB700D126D7 /* TimelineProviders */ = {
+			isa = PBXGroup;
+			children = (
+				F386EC742D4AEFB700D126D7 /* HomescreenProvider.swift */,
+				F386EC752D4AEFB700D126D7 /* LockscreenProvider.swift */,
+			);
+			path = TimelineProviders;
+			sourceTree = "<group>";
+		};
+		F386EC7F2D4AEFB700D126D7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F386EC772D4AEFB700D126D7 /* CircularAccessoryWidgetView1.swift */,
+				F386EC782D4AEFB700D126D7 /* CircularAccessoryWidgetView2.swift */,
+				F386EC792D4AEFB700D126D7 /* CornerAccessoryWidgetView1.swift */,
+				F386EC7A2D4AEFB700D126D7 /* InlineAccessoryWidgetView.swift */,
+				F386EC7B2D4AEFB700D126D7 /* InlineAccessoryWidgetView2.swift */,
+				F386EC7C2D4AEFB700D126D7 /* MediumWidgetView.swift */,
+				F386EC7D2D4AEFB700D126D7 /* RectangularAccessoryWidgetView.swift */,
+				F386EC7E2D4AEFB700D126D7 /* SmallWidgetView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F386EC872D4AEFB700D126D7 /* MCStatusWidgetExtension */ = {
+			isa = PBXGroup;
+			children = (
+				F386EC762D4AEFB700D126D7 /* TimelineProviders */,
+				F386EC7F2D4AEFB700D126D7 /* Views */,
+				F386EC802D4AEFB700D126D7 /* Assets.xcassets */,
+				F386EC812D4AEFB700D126D7 /* Info.plist */,
+				F386EC822D4AEFB700D126D7 /* MCStatusWidgetExtension.entitlements */,
+				F386EC832D4AEFB700D126D7 /* MCStatusWidgetExtensionBundle.swift */,
+				F386EC842D4AEFB700D126D7 /* MCStatusWidgetExtensionHS.swift */,
+				F386EC852D4AEFB700D126D7 /* MCStatusWidgetExtensionLS.swift */,
+				F386EC862D4AEFB700D126D7 /* WidgetEntryVM.swift */,
+			);
+			path = MCStatusWidgetExtension;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -626,9 +693,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				F13095282CBC997200C4C7BA /* MCStatusWatchWidget */,
 			);
 			name = MCStatusWatchWidgetExtension;
 			packageProductDependencies = (
@@ -713,7 +777,6 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				F1EF76F12CB7873F00EFFB20 /* MCStatusWidgetExtension */,
 				F1EF774A2CB858C300EFFB20 /* Widget */,
 			);
 			name = MCStatusWidgetExtension;
@@ -792,6 +855,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F386EC722D4AEFB300D126D7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -816,6 +880,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F386EC882D4AEFB700D126D7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -853,11 +918,21 @@
 				F13095542CBC9DB300C4C7BA /* UserDefaultHelper.swift in Sources */,
 				F13095572CBD48ED00C4C7BA /* WatchServerStatusChecker.swift in Sources */,
 				F13095582CBD494300C4C7BA /* ConnectivityProvider.swift in Sources */,
+				F386EC982D4AEFB700D126D7 /* MCStatusWidgetExtensionLS.swift in Sources */,
+				F386EC992D4AEFB700D126D7 /* WidgetEntryVM.swift in Sources */,
+				F386EC9A2D4AEFB700D126D7 /* CircularAccessoryWidgetView2.swift in Sources */,
+				F386EC9B2D4AEFB700D126D7 /* CircularAccessoryWidgetView1.swift in Sources */,
+				F386EC9C2D4AEFB700D126D7 /* LockscreenProvider.swift in Sources */,
+				F386EC9D2D4AEFB700D126D7 /* InlineAccessoryWidgetView2.swift in Sources */,
+				F386EC9E2D4AEFB700D126D7 /* RectangularAccessoryWidgetView.swift in Sources */,
+				F386EC9F2D4AEFB700D126D7 /* InlineAccessoryWidgetView.swift in Sources */,
+				F386ECA02D4AEFB700D126D7 /* CornerAccessoryWidgetView1.swift in Sources */,
 				F130954D2CBC9D1C00C4C7BA /* ImageHelper.swift in Sources */,
 				F17AE07D2CBE0B6600DC7A80 /* CustomProgressView.swift in Sources */,
 				F17AE0F42CC0504200DC7A80 /* ReviewHelper.swift in Sources */,
 				F150B3612CC07EF800739646 /* RealmDbMigrationHelper.swift in Sources */,
 				F150B35A2CC078D600739646 /* MigrationHelper.swift in Sources */,
+				F386EC712D4AEFB300D126D7 /* MCStatusWatchWidgetExtensionBundle.swift in Sources */,
 				F17AE0F02CC0363F00DC7A80 /* ViewHelpers.swift in Sources */,
 				F130954C2CBC9C5D00C4C7BA /* CustomExtentions.swift in Sources */,
 			);
@@ -918,6 +993,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F386EC8A2D4AEFB700D126D7 /* HomescreenProvider.swift in Sources */,
+				F386EC8B2D4AEFB700D126D7 /* LockscreenProvider.swift in Sources */,
+				F386EC8C2D4AEFB700D126D7 /* CircularAccessoryWidgetView1.swift in Sources */,
+				F386EC8D2D4AEFB700D126D7 /* CircularAccessoryWidgetView2.swift in Sources */,
+				F386EC8E2D4AEFB700D126D7 /* CornerAccessoryWidgetView1.swift in Sources */,
+				F386EC8F2D4AEFB700D126D7 /* InlineAccessoryWidgetView.swift in Sources */,
+				F386EC902D4AEFB700D126D7 /* InlineAccessoryWidgetView2.swift in Sources */,
+				F386EC912D4AEFB700D126D7 /* MediumWidgetView.swift in Sources */,
+				F386EC922D4AEFB700D126D7 /* RectangularAccessoryWidgetView.swift in Sources */,
+				F386EC932D4AEFB700D126D7 /* SmallWidgetView.swift in Sources */,
+				F386EC942D4AEFB700D126D7 /* MCStatusWidgetExtensionBundle.swift in Sources */,
+				F386EC952D4AEFB700D126D7 /* MCStatusWidgetExtensionHS.swift in Sources */,
+				F386EC962D4AEFB700D126D7 /* MCStatusWidgetExtensionLS.swift in Sources */,
+				F386EC972D4AEFB700D126D7 /* WidgetEntryVM.swift in Sources */,
 				F150B35C2CC078D600739646 /* MigrationHelper.swift in Sources */,
 				F150B3602CC07EF800739646 /* RealmDbMigrationHelper.swift in Sources */,
 				F17AE0F12CC0363F00DC7A80 /* ViewHelpers.swift in Sources */,

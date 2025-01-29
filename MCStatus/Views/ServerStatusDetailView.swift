@@ -75,7 +75,7 @@ struct ServerStatusDetailView: View {
     
     var body: some View {
         List {
-            Section(header: Spacer(minLength: 0)) {
+            Section {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .top, spacing: 0) {
                         Image(uiImage: serverStatusVM.serverIcon)
@@ -188,6 +188,8 @@ struct ServerStatusDetailView: View {
                         .frame(height:10)
                         .padding(.bottom, 10)
                 }
+            } header: {
+                Spacer(minLength: 0)
             }
             .padding([.top, .trailing, .leading], 10)
             .listRowInsets(EdgeInsets())

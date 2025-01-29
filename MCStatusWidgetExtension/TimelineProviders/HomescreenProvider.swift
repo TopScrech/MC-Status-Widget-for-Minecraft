@@ -8,6 +8,7 @@ struct HomescreenProvider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> ServerStatusHSSnapshotEntry {
         var vm = WidgetEntryVM()
         vm.setForUnconfiguredView()
+        
         return ServerStatusHSSnapshotEntry(date: Date(), configuration: ServerSelectWidgetIntent(), vm: vm)
     }
     
@@ -16,10 +17,12 @@ struct HomescreenProvider: AppIntentTimelineProvider {
         var vm = WidgetEntryVM()
         
         let container = SwiftDataHelper.getModelContainter()
+        
         if !context.isPreview, let (server, serverStatus, widgetTheme) = await loadTimelineData(container: container, configuration: configuration) {
             let serverIcon = ImageHelper.convertFavIconString(favIcon: serverStatus.favIcon) ?? UIImage(named: "DefaultIcon")!
             vm = WidgetEntryVM(serverName: server.name, status: serverStatus, lastUpdated: "now", serverIcon: serverIcon, theme: widgetTheme)
         }
+        
         return ServerStatusHSSnapshotEntry(date: Date(), configuration: configuration, vm: vm)
     }
     
@@ -46,14 +49,13 @@ struct HomescreenProvider: AppIntentTimelineProvider {
         return (server, statusResult, theme)
     }
     
-    
-    
     func timeline(for configuration: ServerSelectWidgetIntent, in context: Context) async -> Timeline<ServerStatusHSSnapshotEntry> {
         var entries: [ServerStatusHSSnapshotEntry] = []
         let currentDate = Date()
         let futureDate = Calendar.current.date(byAdding: .minute, value: 10, to: Date())!
         
         let container = SwiftDataHelper.getModelContainter()
+        
         guard let (server, serverStatus, widgetTheme) = await loadTimelineData(container: container, configuration: configuration) else {
             // nothing configured yet?
             var vm = WidgetEntryVM()

@@ -30,7 +30,7 @@ struct EditServerView: View {
     
     var body: some View {
         Form {
-            Section(header: Text("Start monitoring a server"), footer: Text("*MCStatus is used for checking the status an existing server. It will not create, setup, or host a new server.").padding(EdgeInsets(top: 10,leading: 0,bottom: 0,trailing: 0))) {
+            Section {
                 HStack { Image(systemName: "list.bullet")
                         .foregroundColor(.gray)
                         .headline()
@@ -81,6 +81,11 @@ struct EditServerView: View {
                     TextField(portLabelPromptText, value: $tempPortInput, formatter: NumberFormatter(), prompt: Text(portLabelPromptText))
                         .keyboardType(.numberPad)
                 }
+            } header: {
+                Text("Start monitoring a server")
+            } footer: {
+                Text("*MCStatus is used for checking the status an existing server. It will not create, setup, or host a new server.")
+                    .padding(EdgeInsets(top: 10,leading: 0,bottom: 0,trailing: 0))
             }
             .headerProminence(.increased)
         }

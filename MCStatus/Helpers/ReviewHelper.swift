@@ -5,17 +5,18 @@ class ReviewHelper {
     
     // UserDefaults keys
     private enum UserDefaultKey: String {
-        case launchCount
-        case lastRequestTimestamp
-        case lastVersion
+        case launchCount,
+             lastRequestTimestamp,
+             lastVersion
     }
     
-    @AppStorage(UserDefaultKey.launchCount.rawValue) private var launchCount: Int = 0
-    @AppStorage(UserDefaultKey.lastRequestTimestamp.rawValue) private var lastRequestTimestamp: TimeInterval = 0
-    @AppStorage(UserDefaultKey.lastVersion.rawValue) private var lastVersion: String = ""
+    @AppStorage(UserDefaultKey.launchCount.rawValue) private var launchCount = 0
+    @AppStorage(UserDefaultKey.lastRequestTimestamp.rawValue) private var lastRequestTimestamp = 0.0
+    @AppStorage(UserDefaultKey.lastVersion.rawValue) private var lastVersion = ""
     
     private let currentVersion: String
-    private let launchCountLimit: Int = 5
+    private let launchCountLimit = 5
+    
     init() {
         // Get the current app version from the Info.plist
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
