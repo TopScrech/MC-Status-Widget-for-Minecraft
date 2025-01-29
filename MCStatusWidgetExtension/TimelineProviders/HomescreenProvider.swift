@@ -61,10 +61,12 @@ struct HomescreenProvider: AppIntentTimelineProvider {
             var vm = WidgetEntryVM()
             vm.setForUnconfiguredView()
             let serverCount = await SwiftDataHelper.getSavedServers(container: container).count
+            
             if serverCount == 0 {
                 // if user has nothing in the db tell them to open the app
                 vm.serverName = "Open App"
             }
+            
             let entry = ServerStatusHSSnapshotEntry(date: currentDate, configuration: configuration, vm: vm)
             entries.append(entry)
             
@@ -93,6 +95,7 @@ struct HomescreenProvider: AppIntentTimelineProvider {
             let vm = WidgetEntryVM(serverName: server.name, status: serverStatus, lastUpdated: timeStr, serverIcon: serverIcon, theme: widgetTheme)
             let entryDate = Calendar.current.date(byAdding: .minute, value: minOffset, to: currentDate)!
             let entry = ServerStatusHSSnapshotEntry(date: entryDate, configuration: configuration, vm: vm)
+            
             entries.append(entry)
         }
         
@@ -102,6 +105,7 @@ struct HomescreenProvider: AppIntentTimelineProvider {
             let vm = WidgetEntryVM(serverName: server.name, status: serverStatus, lastUpdated: timeStr, serverIcon: serverIcon, theme: widgetTheme)
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
             let entry = ServerStatusHSSnapshotEntry(date: entryDate, configuration: configuration, vm: vm)
+            
             entries.append(entry)
         }
         
