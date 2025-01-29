@@ -111,7 +111,7 @@ struct BaseWidgetView: View {
                     .padding(.trailing, 16)
                     .opacity(entry.viewModel.progressStringAlpha)
                 if(entry.viewModel.statusIcon == nil) {
-                    CustomProgressView(progress: CGFloat(entry.viewModel.progressValue), bgColor: self.progressBgColor, bgOpactiy: self.progressBgOpacity)
+                    CustomProgressView(progress: CGFloat(entry.viewModel.progressValue), bgOpactiy: self.progressBgOpacity, bgColor: self.progressBgColor)
                         .frame(height:6)
                         .padding(.top,6)
                         

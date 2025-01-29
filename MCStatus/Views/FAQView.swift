@@ -45,7 +45,7 @@ struct FAQRow: View {
             content: {
                 Text(faq.answer)
                     .font(.body)
-                    .foregroundColor(.secondary) // Muted answer color
+                    .secondary() // Muted answer color
                     .padding(.vertical, 5)
             },
             label: {

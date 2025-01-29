@@ -1,50 +1,46 @@
-//
-//  TipJarView.swift
-//  MCStatus
-//
-//  Created by Tomer Shemesh on 10/16/24.
-//
-
-
 import SwiftUI
 import StoreKit
 
 struct TipJarView: View {
-    @State private var isProcessing: Bool = false
+    @State private var isProcessing = false
     @State private var tipProducts: [Product]?
-    @State private var showAlert: Bool = false
-    @State private var alertTitle: String = ""
-    @State private var alertMessage: String = ""
+    @State private var showAlert = false
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
     
     @Binding var isPresented: Bool
-
+    
     var body: some View {
         ScrollView {
-            
             VStack(spacing: 15) {
                 Text("Support the app!")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                    .largeTitle()
+                    .bold()
                     .padding(.top)
-                Image(systemName: "party.popper.fill").resizable().scaledToFit().frame(width: 100, height: 100).padding()
+                
+                Image(systemName: "party.popper.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .padding()
+                
                 Text("This app is free, ad-less, and open-source. If you find it useful, consider tipping to help keep it going!")
-                    .font(.body)
                     .lineLimit(nil)
                     .multilineTextAlignment(.center)
                     .padding()
                 
                 if let products = tipProducts {
                     ForEach(products, id: \.self) { product in
-                        Button(action: {
+                        Button {
                             Task {
                                 await purchaseTip(product: product)
                             }
-                        }) {
+                        } label: {
                             Text("Tip \(product.displayPrice)")
                                 .headline()
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.blue)
+                                .background(.blue)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
@@ -56,9 +52,8 @@ struct TipJarView: View {
                     ProgressView("Loading Tip Option...")
                 }
                 
-                
                 Text("Thank you for your support!")
-                    .font(.footnote)
+                    .footnote()
                     .padding(.vertical)
             }
             .padding(.horizontal)
@@ -67,28 +62,27 @@ struct TipJarView: View {
             Task {
                 await loadTipProducts()
             }
-        }.alert(isPresented: $showAlert) {
+        }
+        .alert(isPresented: $showAlert) {
             Alert(
                 title: Text(alertTitle),
                 message: Text(alertMessage),
                 dismissButton: .default(Text("OK"))
             )
-        }.toolbar {
+        }
+        .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                Button {
+                Button("Cancel") {
                     isPresented = false
-                } label: {
-                    Text("Cancel")
                 }
             }
         }
-        
-        
     }
+    
     private func loadTipProducts() async {
         do {
             let products = try await Product.products(for: ["com.shemeshapps.MinecraftServerStatus.199Tip", "com.shemeshapps.MinecraftServerStatus.499Tip", "com.shemeshapps.MinecraftServerStatus.999Tip"])
-   
+            
             self.tipProducts = Array(products).sorted { p1, p2 in
                 return p1.price < p2.price
             }
@@ -96,24 +90,32 @@ struct TipJarView: View {
             print("Failed to load tip product: \(error)")
         }
     }
+    
     private func purchaseTip(product: Product) async {
         isProcessing = true
-        defer { isProcessing = false }
-
+        
+        defer {
+            isProcessing = false
+        }
+        
         do {
             let result = try await product.purchase()
+            
             switch result {
             case .success(let verification):
                 switch verification {
                 case .verified(let transaction):
                     await handlePurchase(transaction)
+                    
                 case .unverified(_, let error):
                     alertTitle = "Purchase Error"
                     alertMessage = "Transaction verification failed: \(error.localizedDescription)"
                     showAlert = true
                 }
+                
             case .userCancelled:
                 break
+                
             default:
                 break
             }
@@ -124,7 +126,6 @@ struct TipJarView: View {
         }
     }
     
-
     // Handle successful purchase transaction
     private func handlePurchase(_ transaction: StoreKit.Transaction) async {
         // Process the purchase (e.g., thank the user, unlock features, etc.)
@@ -134,5 +135,4 @@ struct TipJarView: View {
         alertMessage = "Thank you for supporting the development of MC Status! Your contribution helps keep the app ad-free and open source for everyone."
         showAlert = true
     }
-
 }

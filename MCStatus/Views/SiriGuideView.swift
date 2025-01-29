@@ -41,7 +41,7 @@ struct SiriGuideView: View {
                             .padding(.trailing, 5)
                         
                         Text("\"\(phrase.phrase)\"")
-                            .font(.subheadline)
+                            .subheadline()
                             .foregroundColor(.primary)
                     }
                     .padding(.vertical, 5)

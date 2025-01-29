@@ -102,14 +102,17 @@ struct EditServerView: View {
             
         }
             .onAppear {
-            tempServerInput = server.serverUrl
-            if (server.serverPort != 0) {
-                tempPortInput = server.serverPort
+                tempServerInput = server.serverUrl
+                
+                if server.serverPort != 0 {
+                    tempPortInput = server.serverPort
+                }
+                
+                tempNameInput = server.name
+                tempServerType = server.serverType
+                focusedField = .serverName
             }
-            tempNameInput = server.name
-            tempServerType = server.serverType
-            focusedField = .serverName
-        }.interactiveDismissDisabled(inputHasChanged())
+            .interactiveDismissDisabled(inputHasChanged())
         
         .alert("Invalid Server URL/IP Address", isPresented: $showingInvalidURLAlert) {
             Button("OK") {

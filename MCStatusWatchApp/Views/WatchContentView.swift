@@ -40,7 +40,7 @@ struct WatchContentView: View {
             List {
                 ForEach(serverViewModels ?? []) { viewModel in
                     NavigationLink(value: viewModel) {
-                        WatchServerRowView(viewModel: viewModel)
+                        WatchServerRowView(vm: viewModel)
                     }
                 }
 //                Text("Updated \(minSinceLastRefresh)m ago").frame(maxWidth: .infinity, alignment: .center).listRowBackground(Color.clear) // this is ugly so removing it

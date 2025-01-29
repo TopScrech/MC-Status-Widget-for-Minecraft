@@ -96,13 +96,13 @@ struct ServerStatusDetailView: View {
                             
                             let serverAddressString = serverStatusViewModel.server.serverUrl + ":" + String(serverStatusViewModel.server.serverPort)
                             Text(serverAddressString)
-                                .font(.footnote)
+                                .footnote()
                                 .foregroundColor(.secondaryTextColor)
                                 .lineLimit(1)
                             
                             if !srvAddressText.isEmpty {
                                 Text(srvAddressText)
-                                    .font(.footnote)
+                                    .footnote()
                                     .foregroundColor(.secondaryTextColor)
                                     .lineLimit(1)
                             }
@@ -116,7 +116,7 @@ struct ServerStatusDetailView: View {
                                         .padding([.bottom, .top], 7)
                                         .background(pillColor)
                                         .foregroundColor(.white)
-                                        .font(.subheadline)
+                                        .subheadline()
                                         .cornerRadius(16)
                                     
                                     if serverStatusViewModel.loadingStatus == .Loading {
@@ -128,7 +128,7 @@ struct ServerStatusDetailView: View {
                                     HStack {
                                         
                                         Text("\(self.pingDuration)ms")
-                                            .font(.subheadline)
+                                            .subheadline()
                                         Image(systemName: "wifi")
                                             .resizable()
                                             .scaledToFit()
@@ -148,7 +148,7 @@ struct ServerStatusDetailView: View {
                     
                     HStack(alignment: .top) {
                         Text(serverStatusViewModel.server.serverType.rawValue)
-                            .font(.subheadline)
+                            .subheadline()
                             .padding(.horizontal, 6)
                             .padding(.vertical, 3)
                             .background(Color.standoutPillGrey)
@@ -158,7 +158,7 @@ struct ServerStatusDetailView: View {
                         
                         if let version = serverStatusViewModel.status?.version, !version.isEmpty {
                             Text(version)
-                                .font(.subheadline)
+                                .subheadline()
                                 .padding(.top, 3)
                                 .foregroundColor(.secondaryTextColor)
                         }
@@ -212,7 +212,7 @@ struct ServerStatusDetailView: View {
                 let playerSampleCount = serverStatusViewModel.status?.playerSample.count ?? 0
                 let onlinePlayersCount = serverStatusViewModel.status?.onlinePlayerCount ?? 0
                 
-                if (playerSampleCount > 0 && playerSampleCount < onlinePlayersCount) {
+                if playerSampleCount > 0 && playerSampleCount < onlinePlayersCount {
                     Text("*Player list limited to \(playerSampleCount) users by server").frame(maxWidth: .infinity, alignment: .center)
                 }
             }

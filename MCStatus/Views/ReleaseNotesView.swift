@@ -10,7 +10,7 @@ struct Feature: Identifiable {
 }
 
 struct ReleaseNotesView: View {
-    @Environment(\.dismiss) var dismiss // Allows dismissing the sheet when done
+    @Environment(\.dismiss) private var dismiss // Allows dismissing the sheet when done
     @Environment(\.openURL) private var openURL
     
     @State private var showingTipSheet = false
@@ -33,11 +33,9 @@ struct ReleaseNotesView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                
                 Text("I'm thrilled to announce the release of **MC Status 2.0**, a total rewrite from the ground up! Get ready for a blazing fast app experience, with tons of new features and enhancements.")
-                    .font(.body)
                     .padding(.bottom, 20)
-                    .padding(.top,15)
+                    .padding(.top, 15)
                 
                 // Loop through each feature and display it dynamically
                 ForEach(features) { feature in
@@ -54,41 +52,39 @@ struct ReleaseNotesView: View {
                         .padding(.bottom, 10)
                     
                     Text("If you love the app, consider leaving a review or leaving a small tip to help support development!")
-                        .font(.subheadline)
+                        .subheadline()
                         .multilineTextAlignment(.center)
-                        .foregroundColor(.secondary)
+                        .secondary()
                         .padding(.bottom, 20)
                     
                     HStack(spacing: 10) {
-                        Button(action: {
+                        Button {
                             leaveAppReview()
-                        }) {
+                        } label: {
                             Label("Leave a Review", systemImage: "star.fill")
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .font(.callout)
+                                .callout()
                                 .padding()
-                                .background(Color.orange)
+                                .background(.orange)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
-                            
                         }
                         
-                        Button(action: {
+                        Button {
                             showingTipSheet = true
-                        }) {
+                        } label: {
                             Label("Leave a Tip", systemImage: "gift.fill")
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .font(.callout)
+                                .callout()
                                 .padding()
-                                .background(Color.blue)
+                                .background(.blue)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
-                            
                         }
-                    }.padding(.bottom, 20).frame(maxWidth: .infinity)
-                    
+                    }
+                    .padding(.bottom, 20)
+                    .frame(maxWidth: .infinity)
                 }
-                
             }
             .padding([.leading, .trailing, .bottom], 30)
         }
@@ -133,7 +129,7 @@ struct FeatureRow: View {
                 .foregroundColor(feature.iconColor)
                 .imageScale(.large)
                 .scaledToFit()
-                .frame(width: 25,height: 25)
+                .frame(width: 25, height: 25)
             
             VStack(alignment: .leading) {
                 Text(feature.title)
@@ -141,7 +137,7 @@ struct FeatureRow: View {
                     .bold()
                 
                 Text(feature.description)
-                    .foregroundColor(.secondary)
+                    .secondary()
             }
         }
     }

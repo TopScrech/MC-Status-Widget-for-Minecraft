@@ -43,7 +43,7 @@ struct InlineAccessoryWidgetView2 : View {
                     .font(.system(size: 18))
                     .widgetAccentable()
             } else if entry.viewModel.viewType != .Unconfigured {
-                let imageNumber = 50// min(100, max(0, Int((entry.viewModel.progressValue * 100).rounded(.towardZero))))
+                let imageNumber = 50// min(100, max(0, Int((entry.vm.progressValue * 100).rounded(.towardZero))))
                 let imageName = "ProgressBar\(imageNumber)"
                 if let uiImage = UIImage(named: imageName) {
                     Image(uiImage:  uiImage).padding().widgetAccentable()
